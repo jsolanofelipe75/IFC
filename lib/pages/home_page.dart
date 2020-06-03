@@ -36,7 +36,7 @@ class _HomePageState extends State<HomePage> {
               BottomNavigationBarItem(
                   icon: Icon(CupertinoIcons.home), title: Text('Inicio')),
               BottomNavigationBarItem(
-                  icon: Icon(CupertinoIcons.news), title: Text('Eventos')),
+                  icon: Icon(CupertinoIcons.conversation_bubble), title: Text('Blog')),
               BottomNavigationBarItem(
                   icon: Icon(CupertinoIcons.profile_circled),
                   title: Text('Perfil')),

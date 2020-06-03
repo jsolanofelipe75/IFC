@@ -110,6 +110,7 @@ class LisVideos extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
+      padding: EdgeInsets.zero,
       physics: NeverScrollableScrollPhysics(),
       itemCount: items.length,
       shrinkWrap: true,

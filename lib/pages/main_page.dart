@@ -77,7 +77,7 @@ class _HomePrincipalState extends State<HomePrincipal> {
                               style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
-                                  fontSize: 25),
+                                  fontSize: 26),
                               textAlign: TextAlign.right,
                             ),
                             Text(
@@ -85,7 +85,7 @@ class _HomePrincipalState extends State<HomePrincipal> {
                               style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
-                                  fontSize: 25),
+                                  fontSize: 26),
                               textAlign: TextAlign.right,
                             ),
                             Container(
@@ -160,20 +160,20 @@ class _LoadVerseState extends State<_LoadVerse> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: Firestore.instance.collection('versiculo').document('115').get(),
+      future: Firestore.instance.collection('versiculo').document('1').get(),
       builder: (BuildContext context, AsyncSnapshot snapShot) {
         if (!snapShot.hasData) {
           return CupertinoActivityIndicator();
         }
         return Padding(
-          padding: const EdgeInsets.all(10.0),
+          padding: const EdgeInsets.all(15.0),
           child: Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(30)),
               color: LightColors.kLightYellow2,
             ),
             child: Padding(
-              padding: const EdgeInsets.all(12.0),
+              padding: const EdgeInsets.all(18.0),
               child: Column(
                 children: <Widget>[
                   Text(

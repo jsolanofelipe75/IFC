@@ -45,7 +45,8 @@ class _EventosPageState extends State<EventosPage> {
           Padding(
             padding: EdgeInsets.only(
               top: 120,
-              left: 20,
+              left: 15,
+              right: 15
             ),
             child: Container(
               decoration: BoxDecoration(
@@ -57,10 +58,10 @@ class _EventosPageState extends State<EventosPage> {
                       offset: Offset(0, 3), // changes position of shadow
                     ),
                   ],
-                  borderRadius: BorderRadius.only(topLeft: Radius.circular(30)),
+                  borderRadius: BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30)),
                   color: Colors.white),
               child: Padding(
-                padding: EdgeInsets.only(left: 20),
+                padding: EdgeInsets.only(left: 10, right: 10),
                 child: _crearListado(),
               ),
             ),

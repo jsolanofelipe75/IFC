@@ -15,7 +15,7 @@ dependencies:
   webview_flutter: ^0.3.21
   http: ^0.12.0+4
   provider: ^4.0.5
-  cloud_firestore: ^0.13.5 
+  cloud_firestore: ^0.13.6
   firebase_auth: ^0.16.1
   google_sign_in: ^4.5.1
   cached_network_image: ^2.1.0+1
