@@ -4,10 +4,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:provider/provider.dart';
+
 import 'package:pruebas/provider/login_state.dart';
 import 'package:pruebas/theme/colors.dart';
-
 import '../routes/routes.dart';
+import '../utils/responsive.dart';
 
 class HomePrincipal extends StatefulWidget {
   HomePrincipal({Key key}) : super(key: key);
@@ -19,6 +20,7 @@ class HomePrincipal extends StatefulWidget {
 class _HomePrincipalState extends State<HomePrincipal> {
   @override
   Widget build(BuildContext context) {
+    final responsive = Responsive(context);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: LightColors.kDarkYellow,
@@ -46,28 +48,17 @@ class _HomePrincipalState extends State<HomePrincipal> {
         itemBuilder: (context, index) {
           return Column(
             children: <Widget>[
-              Stack(
+              Column(
                 children: <Widget>[
                   ClipPath(
                     clipper: WaveClipperTwo(),
                     child: Container(
-                      width: double.infinity,
-                      height: 220.0,
-                      decoration: BoxDecoration(
-                        color: LightColors.kLightYellow2,
-                      ),
-                    ),
-                  ),
-                  ClipPath(
-                    clipper: WaveClipperTwo(),
-                    child: Container(
-                      width: double.infinity,
-                      height: 210.0,
+                      width: responsive.width,
                       decoration: BoxDecoration(
                         color: LightColors.kDarkYellow,
                       ),
                       child: Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.only(top: 10, left: 15, right: 15, bottom: 30),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -77,16 +68,16 @@ class _HomePrincipalState extends State<HomePrincipal> {
                               style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
-                                  fontSize: 26),
-                              textAlign: TextAlign.right,
+                                  fontSize: responsive.ip(3.5)),
+                              
                             ),
                             Text(
                               'Familiar Cristiana',
                               style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
-                                  fontSize: 26),
-                              textAlign: TextAlign.right,
+                                  fontSize: responsive.ip(3.5)),
+                              
                             ),
                             Container(
                               decoration: BoxDecoration(
@@ -102,10 +93,12 @@ class _HomePrincipalState extends State<HomePrincipal> {
                                   style: TextStyle(
                                       color: Colors.white,
                                       fontStyle: FontStyle.italic,
-                                      fontSize: 17),
+                                      fontSize: responsive.ip(2.3)),
                                 ),
                               ),
+                          
                             ),
+                            SizedBox(height: responsive.hp(6.5),),
                           ],
                         ),
                       ),
@@ -159,6 +152,7 @@ class _LoadVerseState extends State<_LoadVerse> {
 
   @override
   Widget build(BuildContext context) {
+    final responsive = Responsive(context);
     return FutureBuilder(
       future: Firestore.instance.collection('versiculo').document('1').get(),
       builder: (BuildContext context, AsyncSnapshot snapShot) {
@@ -180,7 +174,7 @@ class _LoadVerseState extends State<_LoadVerse> {
                     'Versiculo del día',
                     style: TextStyle(
                       color: Colors.blueGrey,
-                      fontSize: 20,
+                      fontSize: responsive.ip(2.6),
                       fontWeight: FontWeight.bold,
                     ),
                     textAlign: TextAlign.center,
@@ -189,7 +183,7 @@ class _LoadVerseState extends State<_LoadVerse> {
                   Text(snapShot.data['texto'],
                       style: TextStyle(
                           color: Colors.blueGrey,
-                          fontSize: 13,
+                          fontSize: responsive.ip(1.8),
                           fontWeight: FontWeight.normal)),
                   SizedBox(
                     height: 15,
@@ -197,7 +191,7 @@ class _LoadVerseState extends State<_LoadVerse> {
                   Text(
                     'Genesis 1  2',
                     style: TextStyle(
-                        fontSize: 12,
+                        fontSize: responsive.ip(2),
                         color: LightColors.kgrey,
                         fontWeight: FontWeight.bold),
                     textAlign: TextAlign.start,
@@ -215,6 +209,7 @@ class _LoadVerseState extends State<_LoadVerse> {
 class _ListaOpciones extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final responsive = Responsive(context);
     return ListView.builder(
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
@@ -232,10 +227,12 @@ class _ListaOpciones extends StatelessWidget {
           style: TextStyle(
               fontWeight: FontWeight.bold,
               color: LightColors.kgrey,
-              fontSize: 15),
+              fontSize: responsive.ip(2),
+          ),
         ),
         subtitle: Text(pageRoutes[i].subtitle,
-            style: TextStyle(color: Colors.blueGrey, fontSize: 12)),
+            style: TextStyle(color: Colors.blueGrey, fontSize: responsive.ip(1.8)),
+        ),
         onTap: () {
           Navigator.push(context,
               MaterialPageRoute(builder: (context) => pageRoutes[i].page));

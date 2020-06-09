@@ -1,10 +1,12 @@
-import 'package:animate_do/animate_do.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:animate_do/animate_do.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
-import 'package:pruebas/theme/colors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'package:pruebas/theme/colors.dart';
+import '../utils/responsive.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -29,6 +31,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
+     final responsive = Responsive(context);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -72,7 +75,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       height: 90,
                     ),
                     SlideInDown(
-                      child: _loadAvatar(snapshot.data['photoUrl']??'no image'),
+                      child: _loadAvatar(snapshot.data['photoUrl']??'no image', responsive.ip(10)),
                     ),
                     const SizedBox(
                       height: 15,
@@ -155,7 +158,7 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 }
 
-CircleAvatar _loadAvatar(String image, {double radius = 80}) {
+CircleAvatar _loadAvatar(String image, double radius) {
   return CircleAvatar(
     backgroundColor: Colors.white,
     radius: radius,
