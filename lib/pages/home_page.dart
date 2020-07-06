@@ -1,10 +1,9 @@
+import 'package:bubble_bottom_bar/bubble_bottom_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import 'package:provider/provider.dart';
-
-import 'package:pruebas/pages/main_page.dart';
 import 'package:pruebas/pages/events_page.dart';
+import 'package:pruebas/pages/main_page.dart';
 import 'package:pruebas/pages/profile_page.dart';
 import 'package:pruebas/theme/colors.dart';
 
@@ -16,31 +15,69 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
+ 
     return ChangeNotifierProvider(
       create: (_) => _NavegacionModel(),
       child: Consumer<_NavegacionModel>(
         builder: (context, value, child) => Scaffold(
-          backgroundColor: LightColors.kLightYellow,
+          backgroundColor: Colors.white,
           body: value.currentScreen,
-          bottomNavigationBar: BottomNavigationBar(
-            unselectedItemColor: Colors.grey,
-            backgroundColor: Colors.white,
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              // Add your onPressed code here!
+            },
+            child: Icon(CupertinoIcons.mail_solid, color: Colors.white,),
+            elevation: 3,
+            tooltip: 'DONAR',
+            backgroundColor: LightColors.kgrey,
+          ),
+          floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+          bottomNavigationBar: BubbleBottomBar(
+            items: <BubbleBottomBarItem>[
+              BubbleBottomBarItem(
+                  backgroundColor: LightColors.kgrey,
+                  icon: Icon(
+                    CupertinoIcons.home,
+                    color: Colors.grey,
+                  ),
+                  activeIcon: Icon(
+                    CupertinoIcons.home,
+                    color: LightColors.kgrey,
+                  ),
+                  title: Text("Inicio")),
+              BubbleBottomBarItem(
+                  backgroundColor: LightColors.kgrey,
+                  icon: Icon(
+                    CupertinoIcons.conversation_bubble,
+                    color: Colors.grey,
+                  ),
+                  activeIcon: Icon(
+                    CupertinoIcons.conversation_bubble,
+                    color: LightColors.kgrey,
+                  ),
+                  title: Text("Blog")),
+              BubbleBottomBarItem(
+                  backgroundColor: LightColors.kgrey,
+                  icon: Icon(
+                    CupertinoIcons.profile_circled,
+                    color: Colors.grey,
+                  ),
+                  activeIcon: Icon(
+                    CupertinoIcons.profile_circled,
+                    color: LightColors.kgrey,
+                  ),
+                  title: Text("Perfil")),
+            ],
+            opacity: .2,
             currentIndex: value.currentPage,
-            selectedItemColor: LightColors.kgrey,
             onTap: (int idx) {
               value.currentPage = idx;
             },
-            elevation: 20,
-            type: BottomNavigationBarType.fixed,
-            items: [
-              BottomNavigationBarItem(
-                  icon: Icon(CupertinoIcons.home), title: Text('Inicio')),
-              BottomNavigationBarItem(
-                  icon: Icon(CupertinoIcons.conversation_bubble), title: Text('Blog')),
-              BottomNavigationBarItem(
-                  icon: Icon(CupertinoIcons.profile_circled),
-                  title: Text('Perfil')),
-            ],
+            elevation: 8,
+            hasInk: true,
+            hasNotch: true,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+            fabLocation: BubbleBottomBarFabLocation.end,
           ),
         ),
       ),

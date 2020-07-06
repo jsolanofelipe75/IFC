@@ -1,10 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:pruebas/models/event.dart';
+import 'package:pruebas/utils/responsive.dart';
+
+import '../theme/text_theme.dart';
 
 class EventoDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final responsive = Responsive(context);
     final Evento evento = ModalRoute.of(context).settings.arguments;
     return Scaffold(
       backgroundColor: Colors.white,
@@ -51,23 +55,11 @@ class EventoDetailPage extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Text(
-                            evento.titulo,
-                            style: TextStyle(
-                                color: Colors.blueGrey,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold),
-                          ),
+                          TextThemeTitle(text: evento.titulo, color: Colors.blueGrey,),
                           SizedBox(
                             height: 30,
                           ),
-                          Text(
-                            evento.descripcion,
-                            style: TextStyle(
-                                color: Colors.blueGrey,
-                                fontSize: 14,
-                                fontWeight: FontWeight.normal),
-                          ),
+                          TextThemeSubTitle(text: evento.descripcion, color: Colors.blueGrey,)
                         ],
                       ),
                     ),

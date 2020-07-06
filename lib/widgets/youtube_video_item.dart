@@ -24,14 +24,12 @@ class YouTubeVideoItem extends StatelessWidget {
       child: CupertinoButton(
         padding: EdgeInsets.zero,
         onPressed: () {
-          
-          FlutterYoutube.playYoutubeVideoById(backgroundColor: Colors.white,apiKey: YT_API_KEY, videoId: item.videoId, fullScreen: false);
-          /*FlutterYoutube.playYoutubeVideoByUrl(
-            apiKey: YT_API_KEY,
-            videoUrl: "https://www.youtube.com/watch?v=${item.videoId}",
-            autoPlay: true, //default falase
-            fullScreen: false,
-          );*/
+          FlutterYoutube.playYoutubeVideoById(
+              apiKey: YT_API_KEY,
+              videoId: item.videoId,
+              fullScreen: false,
+              appBarColor: LightColors.kDarkYellow,
+              autoPlay: false);
         },
         child: AspectRatio(
           aspectRatio: 7 / 3,

@@ -27,6 +27,8 @@ class _MyAppState extends State<MyApp> {
         title: 'IFC',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
+          primaryColor: Colors.white,
+          accentColor: LightColors.kLightYellow,
           textTheme: Theme.of(context).textTheme.apply(
               bodyColor: LightColors.kDarkBlue,
               displayColor: LightColors.kDarkBlue,

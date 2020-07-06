@@ -4,6 +4,8 @@ import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:pruebas/models/event.dart';
 import 'package:pruebas/services/db.dart' as db;
 import 'package:pruebas/theme/colors.dart';
+import 'package:pruebas/theme/text_theme.dart';
+
 import 'package:pruebas/widgets/card_event_item.dart';
 
 class EventosPage extends StatefulWidget {
@@ -14,6 +16,7 @@ class EventosPage extends StatefulWidget {
 class _EventosPageState extends State<EventosPage> {
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
       backgroundColor: Colors.white,
       body: Stack(
@@ -33,14 +36,7 @@ class _EventosPageState extends State<EventosPage> {
           SafeArea(
               child: Padding(
             padding: const EdgeInsets.only(left: 50, top: 35.0),
-            child: Text(
-              'Eventos',
-              textAlign: TextAlign.left,
-              style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18),
-            ),
+            child: TextThemeTitle(text: 'Eventos', color: Colors.white,)
           )),
           Padding(
             padding: EdgeInsets.only(
@@ -71,7 +67,7 @@ class _EventosPageState extends State<EventosPage> {
     );
   }
 
-  _crearListado() {
+  Widget _crearListado() {
     return StreamBuilder(
       stream: db.getEvents(),
       builder: (BuildContext context, AsyncSnapshot<List<Evento>> snapShot) {

@@ -174,7 +174,7 @@ class _LoadVerseState extends State<_LoadVerse> {
                     'Versiculo del día',
                     style: TextStyle(
                       color: Colors.blueGrey,
-                      fontSize: responsive.ip(2.6),
+                      fontSize: responsive.ip(2.4),
                       fontWeight: FontWeight.bold,
                     ),
                     textAlign: TextAlign.center,
@@ -183,7 +183,7 @@ class _LoadVerseState extends State<_LoadVerse> {
                   Text(snapShot.data['texto'],
                       style: TextStyle(
                           color: Colors.blueGrey,
-                          fontSize: responsive.ip(1.8),
+                          fontSize: responsive.ip(1.7),
                           fontWeight: FontWeight.normal)),
                   SizedBox(
                     height: 15,
@@ -231,7 +231,7 @@ class _ListaOpciones extends StatelessWidget {
           ),
         ),
         subtitle: Text(pageRoutes[i].subtitle,
-            style: TextStyle(color: Colors.blueGrey, fontSize: responsive.ip(1.8)),
+            style: TextStyle(color: Colors.blueGrey, fontSize: responsive.ip(1.7)),
         ),
         onTap: () {
           Navigator.push(context,

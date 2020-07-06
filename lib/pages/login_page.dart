@@ -6,6 +6,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:pruebas/provider/login_state.dart';
 import 'package:pruebas/theme/colors.dart';
+import 'package:pruebas/utils/responsive.dart';
 import '../pages/register_page.dart';
 
 class LoginPage extends StatefulWidget {
@@ -20,6 +21,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    final responsive = Responsive(context);
     return Scaffold(
       body: Consumer<LoginState>(
         builder: (BuildContext context, LoginState state, Widget child) {
@@ -31,7 +33,7 @@ class _LoginPageState extends State<LoginPage> {
         },
         child: SingleChildScrollView(
           child: Container(
-            width: MediaQuery.of(context).size.width,
+            width: responsive.width,
             child: Column(
               children: <Widget>[
                 Stack(
@@ -91,10 +93,10 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     Positioned(
                       bottom: 20,
-                      right: 60,
+                      right: responsive.wp(18),
                       child: Image(
                         image: AssetImage('assets/logo_negro_solo.png'),
-                        width: 55,
+                        width: responsive.wp(15),
                       ),
                     ),
                   ],
@@ -165,7 +167,6 @@ class _LoginPageState extends State<LoginPage> {
                                     listen: false);
                                 provider.signInWithEmailAndPassword(
                                     email, password);
-                                    
                               } else {
                                 showDialog(
                                     context: context,

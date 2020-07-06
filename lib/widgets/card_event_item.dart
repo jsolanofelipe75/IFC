@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pruebas/models/event.dart';
+import 'package:pruebas/utils/responsive.dart';
 
 class CardEventItem extends StatelessWidget {
   final Evento evento;
@@ -10,6 +11,7 @@ class CardEventItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final responsive = Responsive(context);
     return CupertinoButton(
       padding: EdgeInsets.zero,
       onPressed: () {
@@ -58,7 +60,7 @@ class CardEventItem extends StatelessWidget {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
-                        fontSize: 14,
+                        fontSize: responsive.ip(2.3),
                         fontWeight: FontWeight.bold,
                         color: Colors.blueGrey),
                     textAlign: TextAlign.start,
@@ -70,7 +72,7 @@ class CardEventItem extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                           maxLines: 2,
                           style:
-                              TextStyle(fontSize: 11, color: Colors.blueGrey),
+                              TextStyle(fontSize: responsive.ip(1.6), color: Colors.blueGrey),
                         )
                       : Text('No hay descripción'),
                   SizedBox(height: 10),

@@ -31,7 +31,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-     final responsive = Responsive(context);
+    final responsive = Responsive(context);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -75,7 +75,9 @@ class _ProfilePageState extends State<ProfilePage> {
                       height: 90,
                     ),
                     SlideInDown(
-                      child: _loadAvatar(snapshot.data['photoUrl']??'no image', responsive.ip(10)),
+                      child: _loadAvatar(
+                          snapshot.data['photoUrl'] ?? 'no image',
+                          responsive.ip(10)),
                     ),
                     const SizedBox(
                       height: 15,
@@ -147,7 +149,9 @@ class _ProfilePageState extends State<ProfilePage> {
                 );
               } else {
                 return Center(
-                  child: CupertinoActivityIndicator(radius: 15,),
+                  child: CupertinoActivityIndicator(
+                    radius: 15,
+                  ),
                 );
               }
             },
