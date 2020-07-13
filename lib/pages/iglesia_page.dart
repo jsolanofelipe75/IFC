@@ -17,9 +17,10 @@ class IglesiaPage extends StatelessWidget {
           SliverAppBar(
             brightness: Brightness.dark,
             elevation: 3,
+         
             expandedHeight: 180,
             pinned: false,
-            floating: true,
+            floating: false,
             snap: false,
             flexibleSpace: FlexibleSpaceBar(
               collapseMode: CollapseMode.parallax,

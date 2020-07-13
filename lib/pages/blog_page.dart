@@ -1,19 +1,21 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
-import 'package:pruebas/models/event.dart';
-import 'package:pruebas/services/db.dart' as db;
+
+import 'package:pruebas/services/wordpress.dart';
 import 'package:pruebas/theme/colors.dart';
 import 'package:pruebas/theme/text_theme.dart';
-
 import 'package:pruebas/widgets/card_event_item.dart';
 
-class EventosPage extends StatefulWidget {
+class BlogPage extends StatefulWidget {
   @override
-  _EventosPageState createState() => _EventosPageState();
+  _BlogPageState createState() => _BlogPageState();
 }
 
-class _EventosPageState extends State<EventosPage> {
+class _BlogPageState extends State<BlogPage> {
+
+  final postsProvider = PostsProvider();
+
   @override
   Widget build(BuildContext context) {
     
@@ -31,34 +33,34 @@ class _EventosPageState extends State<EventosPage> {
           ),
           ClipPath(
             clipper: OvalBottomBorderClipper(),
-            child: Container(height: 140, color: LightColors.kDarkYellow),
+            child: Container(height: 160, color: LightColors.kgrey),
           ),
           SafeArea(
               child: Padding(
-            padding: const EdgeInsets.only(left: 50, top: 35.0),
-            child: TextThemeTitle(text: 'Eventos', color: Colors.white,)
-          )),
+                  padding: const EdgeInsets.only(left: 50, top: 30.0),
+                  child: TextThemeTitle(
+                    text: 'Blog',
+                    color: Colors.white,
+                  ))),
           Padding(
-            padding: EdgeInsets.only(
-              top: 120,
-              left: 15,
-              right: 15
-            ),
+            padding: EdgeInsets.only(top: 100, left: 15, right: 15),
             child: Container(
               decoration: BoxDecoration(
                   boxShadow: [
                     BoxShadow(
                       color: Colors.grey.withOpacity(0.5),
-                      spreadRadius: 3,
-                      blurRadius: 5,
-                      offset: Offset(0, 3), // changes position of shadow
+                      spreadRadius: 0.0,
+                      blurRadius: 0.0,
+                      offset: Offset(0, 1), // changes position of shadow
                     ),
                   ],
-                  borderRadius: BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30)),
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20)),
                   color: Colors.white),
               child: Padding(
-                padding: EdgeInsets.only(left: 10, right: 10),
-                child: _crearListado(),
+                padding: EdgeInsets.only(left: 5, right: 5),
+                child:_crearListado(),
               ),
             ),
           ),
@@ -68,9 +70,9 @@ class _EventosPageState extends State<EventosPage> {
   }
 
   Widget _crearListado() {
-    return StreamBuilder(
-      stream: db.getEvents(),
-      builder: (BuildContext context, AsyncSnapshot<List<Evento>> snapShot) {
+    return FutureBuilder(
+      future: postsProvider.blog(),
+      builder: (BuildContext context, AsyncSnapshot snapShot) {
         if (snapShot.hasError) {
           return Center(child: Text(snapShot.error.toString()));
         }
@@ -85,18 +87,19 @@ class _EventosPageState extends State<EventosPage> {
                 SizedBox(
                   height: 10,
                 ),
-                Text('Cargando eventos...')
+                Text('Cargando Blog...')
               ],
             ),
           );
-        List<Evento> eventos = snapShot.data;
+        var posts = snapShot.data;
         return ListView.builder(
           physics: BouncingScrollPhysics(),
-          itemCount: eventos.length,
-          itemBuilder: (context, index) {
-            final Evento evento = eventos[index];
-            return CardEventItem(evento: evento);
-          },
+          itemCount: posts.length,
+          itemBuilder: (context, index){
+            Map posts = snapShot.data[index];
+            return CardEventItem(post: posts);
+          } 
+        
         );
       },
     );

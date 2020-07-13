@@ -28,7 +28,7 @@ class YouTubeVideoItem extends StatelessWidget {
               apiKey: YT_API_KEY,
               videoId: item.videoId,
               fullScreen: false,
-              appBarColor: LightColors.kDarkYellow,
+              appBarColor: Colors.black,
               autoPlay: false);
         },
         child: AspectRatio(

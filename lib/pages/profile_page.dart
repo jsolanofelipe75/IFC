@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
+import 'package:pruebas/utils/extras.dart';
+import 'package:timeago/timeago.dart' as timeago;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:pruebas/theme/colors.dart';
@@ -60,7 +62,7 @@ class _ProfilePageState extends State<ProfilePage> {
             child: Container(
               height: 350,
               foregroundDecoration:
-                  BoxDecoration(color: LightColors.kDarkYellow.withOpacity(1)),
+                  BoxDecoration(color: LightColors.kgrey.withOpacity(1)),
             ),
           ),
           FutureBuilder(
@@ -68,6 +70,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 Firestore.instance.collection('usuarios').document(id).get(),
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               if (snapshot.hasData) {
+              Timestamp  date = snapshot.data['createdAt'];
                 return ListView(
                   padding: EdgeInsets.all(8.0),
                   children: <Widget>[
@@ -76,8 +79,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                     SlideInDown(
                       child: _loadAvatar(
-                          snapshot.data['photoUrl'] ?? 'no image',
-                          responsive.ip(10)),
+                          snapshot.data['photoUrl'], responsive.ip(10)),
                     ),
                     const SizedBox(
                       height: 15,
@@ -131,11 +133,11 @@ class _ProfilePageState extends State<ProfilePage> {
                                 height: 15,
                               ),
                               Text(
-                                snapshot.data['createdAt'].toString(),
+                               snapshot.data['createdAt'],
                                 style: Theme.of(context)
                                     .textTheme
                                     .subtitle2
-                                    .copyWith(color: Colors.white),
+                                    .copyWith(color: Colors.black),
                               ),
                               SizedBox(
                                 height: 15,
@@ -163,13 +165,25 @@ class _ProfilePageState extends State<ProfilePage> {
 }
 
 CircleAvatar _loadAvatar(String image, double radius) {
-  return CircleAvatar(
-    backgroundColor: Colors.white,
-    radius: radius,
-    child: CircleAvatar(
-      backgroundImage: NetworkImage(image),
+  if (image == null) {
+    return CircleAvatar(
       backgroundColor: Colors.white,
-      radius: radius - 2,
-    ),
-  );
+      radius: radius,
+      child: CircleAvatar(
+        backgroundImage: AssetImage('assets/avatar.jpg'),
+        backgroundColor: Colors.white,
+        radius: radius - 2,
+      ),
+    );
+  } else {
+    return CircleAvatar(
+      backgroundColor: Colors.white,
+      radius: radius,
+      child: CircleAvatar(
+        backgroundImage: NetworkImage(image),
+        backgroundColor: Colors.white,
+        radius: radius - 2,
+      ),
+    );
+  }
 }

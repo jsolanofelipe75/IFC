@@ -2,7 +2,7 @@ import 'package:bubble_bottom_bar/bubble_bottom_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:pruebas/pages/events_page.dart';
+import 'package:pruebas/pages/blog_page.dart';
 import 'package:pruebas/pages/main_page.dart';
 import 'package:pruebas/pages/profile_page.dart';
 import 'package:pruebas/theme/colors.dart';
@@ -15,23 +15,12 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
- 
     return ChangeNotifierProvider(
       create: (_) => _NavegacionModel(),
       child: Consumer<_NavegacionModel>(
         builder: (context, value, child) => Scaffold(
           backgroundColor: Colors.white,
           body: value.currentScreen,
-          floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              // Add your onPressed code here!
-            },
-            child: Icon(CupertinoIcons.mail_solid, color: Colors.white,),
-            elevation: 3,
-            tooltip: 'DONAR',
-            backgroundColor: LightColors.kgrey,
-          ),
-          floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
           bottomNavigationBar: BubbleBottomBar(
             items: <BubbleBottomBarItem>[
               BubbleBottomBarItem(
@@ -73,11 +62,12 @@ class _HomePageState extends State<HomePage> {
             onTap: (int idx) {
               value.currentPage = idx;
             },
-            elevation: 8,
+            elevation: 10,
             hasInk: true,
-            hasNotch: true,
-            borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-            fabLocation: BubbleBottomBarFabLocation.end,
+            borderRadius: BorderRadius.only(
+              topRight: Radius.circular(10),
+              topLeft: Radius.circular(10),
+            ),
           ),
         ),
       ),
@@ -89,7 +79,7 @@ class _NavegacionModel with ChangeNotifier {
   int _currentPage = 0;
   List<Widget> _screens = [
     HomePrincipal(),
-    EventosPage(),
+    BlogPage(),
     ProfilePage(),
   ];
 

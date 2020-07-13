@@ -1,18 +1,16 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:pruebas/models/event.dart';
+import 'package:html/parser.dart';
 import 'package:pruebas/utils/responsive.dart';
-
-import '../theme/text_theme.dart';
 
 class EventoDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final responsive = Responsive(context);
-    final Evento evento = ModalRoute.of(context).settings.arguments;
+    final Map post = ModalRoute.of(context).settings.arguments as Map;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        brightness: Brightness.dark,
         elevation: 0.5,
         leading: FlatButton(
           onPressed: () {
@@ -30,11 +28,14 @@ class EventoDetailPage extends StatelessWidget {
       body: Stack(
         children: <Widget>[
           Hero(
-            tag: evento.id,
-            child: CachedNetworkImage(
-              imageUrl: evento.imagen,
+            tag: post['id'],
+            child: FadeInImage(
               height: 250,
-              width: double.infinity,
+              placeholder: AssetImage('assets/logo_negro_solo.png'),
+              image: NetworkImage(
+                post['_embedded']['wp:featuredmedia'][0]['media_details']
+                    ['sizes']['medium_large']['source_url'],
+              ),
               fit: BoxFit.cover,
             ),
           ),
@@ -51,15 +52,21 @@ class EventoDetailPage extends StatelessWidget {
                             topLeft: Radius.circular(40)),
                         color: Colors.white),
                     child: Padding(
-                      padding: const EdgeInsets.all(25.0),
+                      padding: const EdgeInsets.all(20.0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          TextThemeTitle(text: evento.titulo, color: Colors.blueGrey,),
+                          Text(
+                            parse((post['title']['rendered']).toString()).documentElement.text,
+                            style: TextStyle(color: Colors.blueGrey, fontSize: responsive.ip(2.4), fontWeight: FontWeight.bold),
+                          ),
                           SizedBox(
                             height: 30,
                           ),
-                          TextThemeSubTitle(text: evento.descripcion, color: Colors.blueGrey,)
+                          Text(
+                            parse((post['content']['rendered']).toString()).documentElement.text,
+                            style: TextStyle(color: Colors.blueGrey, fontSize: responsive.ip(1.9), fontWeight: FontWeight.normal),
+                          )
                         ],
                       ),
                     ),

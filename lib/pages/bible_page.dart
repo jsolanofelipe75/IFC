@@ -19,7 +19,8 @@ class _WebViewState extends State<WebViewS> {
       ),
       url: 'https://www.bible.com/es/bible/149/GEN.1.RVR1960',
       appBar: AppBar(
-        backgroundColor: LightColors.kDarkYellow,
+        brightness: Brightness.dark,
+        backgroundColor: LightColors.kgrey,
         title: Text('Biblia digital'),
       ),
     );

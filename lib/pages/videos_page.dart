@@ -41,7 +41,7 @@ class _VideosPageState extends State<VideosListPage> {
       body: CustomScrollView(
         slivers: <Widget>[
           SliverAppBar(
-            backgroundColor: LightColors.kDarkYellow,
+            backgroundColor: LightColors.kgrey,
             expandedHeight: 200,
             pinned: false,
             floating: false,
@@ -76,7 +76,7 @@ class _VideosPageState extends State<VideosListPage> {
                         width: double.infinity,
                         height: 200.0,
                         decoration: BoxDecoration(
-                          color: LightColors.kDarkYellow,
+                          color: LightColors.kgrey,
                         ),
                       ),
                     ),

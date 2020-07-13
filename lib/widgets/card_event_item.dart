@@ -1,13 +1,13 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pruebas/models/event.dart';
+import 'package:html/parser.dart';
+
 import 'package:pruebas/utils/responsive.dart';
 
 class CardEventItem extends StatelessWidget {
-  final Evento evento;
+  final Map post;
 
-  const CardEventItem({@required this.evento});
+  const CardEventItem({@required this.post});
 
   @override
   Widget build(BuildContext context) {
@@ -15,39 +15,28 @@ class CardEventItem extends StatelessWidget {
     return CupertinoButton(
       padding: EdgeInsets.zero,
       onPressed: () {
-        Navigator.pushNamed(context, '/eventoDetail', arguments: evento);
+        Navigator.pushNamed(context, '/eventoDetail', arguments: post);
       },
       child: Card(
         color: Colors.white,
-        elevation: 5,
+        elevation: 3,
         margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15),
         ),
         child: Column(
           children: <Widget>[
-            (evento.imagen != null)
-                ? Container(
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(15),
-                      child: Hero(
-                        tag: evento.id,
-                        child: CachedNetworkImage(
-                          height: 140,
-                          width: double.infinity,
-                          fit: BoxFit.cover,
-                          imageUrl: evento.imagen,
-                          errorWidget: (context, url, error) =>
-                              Icon(Icons.error),
-                        ),
-                      ),
-                    ),
-                  )
-                : Image(
-                    image: AssetImage('assets/logo_negro_solo.png'),
-                    width: double.infinity,
-                    height: 140,
-                    fit: BoxFit.fill),
+            Hero(
+              tag: post['id'],
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(15),
+                child: FadeInImage(
+                  placeholder: AssetImage('assets/face.jpg'),
+                  image: NetworkImage(post['_embedded']['wp:featuredmedia'][0]
+                      ['media_details']['sizes']['medium_large']['source_url']),
+                ),
+              ),
+            ),
             Padding(
               padding: EdgeInsets.all(8),
               child: Column(
@@ -56,23 +45,28 @@ class CardEventItem extends StatelessWidget {
                 children: <Widget>[
                   SizedBox(height: 5),
                   Text(
-                    evento.titulo,
+                    parse((post['title']['rendered']).toString())
+                        .documentElement
+                        .text,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
-                        fontSize: responsive.ip(2.3),
+                        fontSize: responsive.ip(2.0),
                         fontWeight: FontWeight.bold,
                         color: Colors.blueGrey),
                     textAlign: TextAlign.start,
                   ),
-                  SizedBox(height: 8),
-                  (evento.descripcion != null)
+                 
+                  (post['excerpt']['rendered'] != null)
                       ? Text(
-                          evento.descripcion,
+                          parse((post['content']['rendered']).toString())
+                              .documentElement
+                              .text,
                           overflow: TextOverflow.ellipsis,
-                          maxLines: 2,
-                          style:
-                              TextStyle(fontSize: responsive.ip(1.6), color: Colors.blueGrey),
+                          maxLines: 3,
+                          style: TextStyle(
+                              fontSize: responsive.ip(1.6),
+                              color: Colors.blueGrey),
                         )
                       : Text('No hay descripción'),
                   SizedBox(height: 10),

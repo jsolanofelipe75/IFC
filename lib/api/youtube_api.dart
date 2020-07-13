@@ -58,6 +58,7 @@ class YoutubeAPI {
 
       if (response.statusCode == 200) {
         final parsed = jsonDecode(response.body);
+
         final List<YouTubeVideo> items = (parsed['items'] as List)
             .map<YouTubeVideo>((item) => YouTubeVideo.fromJson(item))
             .toList();

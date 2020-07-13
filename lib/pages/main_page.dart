@@ -2,11 +2,11 @@ import 'package:animate_do/animate_do.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:provider/provider.dart';
-
 import 'package:pruebas/provider/login_state.dart';
 import 'package:pruebas/theme/colors.dart';
+import 'package:pruebas/utils/video_player.dart';
+
 import '../routes/routes.dart';
 import '../utils/responsive.dart';
 
@@ -23,7 +23,8 @@ class _HomePrincipalState extends State<HomePrincipal> {
     final responsive = Responsive(context);
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: LightColors.kDarkYellow,
+        brightness: Brightness.dark,
+        backgroundColor: Colors.white,
         elevation: 0,
         centerTitle: true,
         title: Image.asset(
@@ -50,68 +51,49 @@ class _HomePrincipalState extends State<HomePrincipal> {
             children: <Widget>[
               Column(
                 children: <Widget>[
-                  ClipPath(
-                    clipper: WaveClipperTwo(),
-                    child: Container(
+                  
+                  Container(
                       width: responsive.width,
                       decoration: BoxDecoration(
-                        color: LightColors.kDarkYellow,
+                        color: Colors.white,
                       ),
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 10, left: 15, right: 15, bottom: 30),
-                        child: Column(
+                      child:Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
-                            Text(
-                              'Iglesia',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: responsive.ip(3.5)),
-                              
-                            ),
-                            Text(
-                              'Familiar Cristiana',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: responsive.ip(3.5)),
-                              
-                            ),
-                            Container(
-                              decoration: BoxDecoration(
-                                color: LightColors.kgrey,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(5)),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 3.0, right: 3.0),
-                                child: Text(
-                                  ' EN DIOS HAREMOS PROEZAS ',
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontStyle: FontStyle.italic,
-                                      fontSize: responsive.ip(2.3)),
-                                ),
-                              ),
-                          
-                            ),
-                            SizedBox(height: responsive.hp(6.5),),
+                            
+                            Center(child: Image.asset('assets/large2020.png',width: double.infinity,height: 250,fit: BoxFit.cover,)),
+                            
+                            
                           ],
                         ),
-                      ),
+                      
                     ),
-                  ),
+                  
                 ],
               ),
+              
+              
               SizedBox(
                 height: 10,
               ),
               SlideInUp(child: _LoadVerse()),
+              
+              SlideInUp(child: Image.asset('assets/separator.png', width: 40, height: 40,)),
+              SizedBox(
+                height: 10,
+              ),
+              SlideInUp(child: Container(color: Colors.white,child: VideoPlayerIFC(), height: 200,width: double.infinity,)),
               SizedBox(
                 height: 20,
+              ),
+              SlideInUp(child: Text('Creemos en Jesús, nuestro Señor y Salvador.', style: TextStyle(fontSize: responsive.ip(1.5), fontStyle: FontStyle.italic),)),
+              SizedBox(
+                height: 10,
+              ),
+              SlideInUp(child: Image.asset('assets/separator.png',width: 40, height: 40,)),
+              SizedBox(
+                height: 10,
               ),
               SlideInUp(
                   child: Column(
@@ -164,7 +146,7 @@ class _LoadVerseState extends State<_LoadVerse> {
           child: Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(30)),
-              color: LightColors.kLightYellow2,
+              color: Colors.white,
             ),
             child: Padding(
               padding: const EdgeInsets.all(18.0),
@@ -173,7 +155,7 @@ class _LoadVerseState extends State<_LoadVerse> {
                   Text(
                     'Versiculo del día',
                     style: TextStyle(
-                      color: Colors.blueGrey,
+                      color: LightColors.kgrey,
                       fontSize: responsive.ip(2.4),
                       fontWeight: FontWeight.bold,
                     ),

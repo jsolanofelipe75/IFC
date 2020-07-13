@@ -142,7 +142,7 @@ class _RegisterPageState extends State<RegisterPage> {
           _db.collection('usuarios').document(_user.uid).setData({
             'name': _user.displayName,
             'email': _user.email,
-            'photoUrl': _user.photoUrl,
+            'photoUrl': '',
             'createdAt': DateTime.now(),
             'celular': ''
           });
