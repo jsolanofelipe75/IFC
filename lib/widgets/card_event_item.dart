@@ -1,8 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:html/parser.dart';
-
 import 'package:pruebas/utils/responsive.dart';
+
+import '../utils/extras.dart';
 
 class CardEventItem extends StatelessWidget {
   final Map post;
@@ -12,6 +14,9 @@ class CardEventItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final responsive = Responsive(context);
+    String timestamp = post['date'];
+    DateTime date = DateTime.parse(timestamp);
+
     return CupertinoButton(
       padding: EdgeInsets.zero,
       onPressed: () {
@@ -30,10 +35,9 @@ class CardEventItem extends StatelessWidget {
               tag: post['id'],
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(15),
-                child: FadeInImage(
-                  placeholder: AssetImage('assets/face.jpg'),
-                  image: NetworkImage(post['_embedded']['wp:featuredmedia'][0]
-                      ['media_details']['sizes']['medium_large']['source_url']),
+                child: CachedNetworkImage(
+                  imageUrl: post['_embedded']['wp:featuredmedia'][0]
+                      ['media_details']['sizes']['medium_large']['source_url'],
                 ),
               ),
             ),
@@ -56,7 +60,6 @@ class CardEventItem extends StatelessWidget {
                         color: Colors.blueGrey),
                     textAlign: TextAlign.start,
                   ),
-                 
                   (post['excerpt']['rendered'] != null)
                       ? Text(
                           parse((post['content']['rendered']).toString())
@@ -70,6 +73,13 @@ class CardEventItem extends StatelessWidget {
                         )
                       : Text('No hay descripción'),
                   SizedBox(height: 10),
+                  Align(
+                      alignment: Alignment.bottomRight,
+                      child: Text(
+                        Extras.fromNow(date),
+                        style: TextStyle(
+                            fontSize: responsive.ip(1.5), color: Colors.grey),
+                      )),
                 ],
               ),
             )

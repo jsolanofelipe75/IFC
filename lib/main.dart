@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter/services.dart';
 
 import 'package:pruebas/pages/evento_detail_page.dart';
 import 'package:pruebas/pages/home_page.dart';
 import 'package:pruebas/pages/login_page.dart';
 import 'package:pruebas/provider/login_state.dart';
+import 'package:pruebas/provider/radio_stream.dart';
 import 'package:pruebas/theme/colors.dart';
 
 void main() {
@@ -19,11 +21,19 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<LoginState>(
-      create: (BuildContext context) => LoginState(),
+    SystemChrome.setPreferredOrientations([
+        DeviceOrientation.portraitUp,
+        DeviceOrientation.portraitDown,
+      ]);
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<LoginState>(
+            create: (BuildContext context) => LoginState()),
+        ChangeNotifierProvider<StreamState>(
+            create: (BuildContext context) => StreamState()),
+      ],
       child: MaterialApp(
         title: 'IFC',
-        
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primaryColor: LightColors.kgrey,
@@ -43,9 +53,9 @@ class _MyAppState extends State<MyApp> {
             }
           },
           '/eventoDetail': (context) => EventoDetailPage(),
-          
         },
       ),
     );
   }
+  
 }

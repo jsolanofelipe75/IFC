@@ -1,8 +1,7 @@
 import 'dart:convert';
 
-import 'package:meta/meta.dart' show required;
 import 'package:http/http.dart' as http;
-import 'package:pruebas/models/play_list.dart';
+import 'package:meta/meta.dart' show required;
 import 'package:pruebas/models/youtube_video.dart';
 
 class YoutubeAPI {
@@ -20,11 +19,11 @@ class YoutubeAPI {
     return uri.toString();
   }
 
-  Future<List<PlayList>> getPlayList(String channelId) async {
+  Future<List<YouTubeVideo>> getPlayList(String playListId) async {
     try {
-      final String url = _getUrl('playlists', {
-        'part': ' snippet, contentDetails',
-        'channelId': channelId,
+      final String url = _getUrl('playlistItems', {
+        'part': ' snippet',
+        'playlistId': playListId,
         'key': this.apiKey,
         'maxResults': '20'
       });
@@ -33,8 +32,8 @@ class YoutubeAPI {
 
       if (response.statusCode == 200) {
         final parsed = jsonDecode(response.body);
-        final List<PlayList> items = (parsed['items'] as List)
-            .map<PlayList>((item) => PlayList.fromJson(item))
+        final List<YouTubeVideo> items = (parsed['items'] as List)
+            .map<YouTubeVideo>((item) => YouTubeVideo.fromJson(item))
             .toList();
 
         return items;

@@ -17,7 +17,7 @@ class YouTubeVideo {
     final thumbnail = snippet['thumbnails']['standard']??snippet['thumbnails']['high'];
 
     return YouTubeVideo(
-        videoId: json['contentDetails']['upload']['videoId'],
+        videoId: json['snippet']['resourceId']['videoId'],
         title: snippet['title'],
         description: snippet['description'],
         banner: thumbnail['url'],

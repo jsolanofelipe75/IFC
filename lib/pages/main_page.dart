@@ -3,7 +3,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:pruebas/provider/login_state.dart';
+
+
+import 'package:pruebas/provider/radio_stream.dart';
 import 'package:pruebas/theme/colors.dart';
 import 'package:pruebas/utils/video_player.dart';
 
@@ -20,92 +22,170 @@ class HomePrincipal extends StatefulWidget {
 class _HomePrincipalState extends State<HomePrincipal> {
   @override
   Widget build(BuildContext context) {
+    
     final responsive = Responsive(context);
-    return Scaffold(
-      appBar: AppBar(
-        brightness: Brightness.dark,
-        backgroundColor: Colors.white,
-        elevation: 0,
-        centerTitle: true,
-        title: Image.asset(
-          'assets/logo_negro_solo.png',
-          scale: 40,
-        ),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(
-              Icons.more_vert,
+    return ChangeNotifierProvider(
+      create: (_) => StreamState(),
+      child: Consumer<StreamState>(
+        builder: (BuildContext context, StreamState value, Widget child) =>
+            Scaffold(
+          appBar: AppBar(
+            brightness: Brightness.dark,
+            backgroundColor: Colors.white,
+            elevation: 0,
+            centerTitle: true,
+            title: Image.asset(
+              'assets/logo_negro_solo.png',
+              scale: 40,
             ),
-            onPressed: () {
-              Provider.of<LoginState>(context, listen: false).logout();
-            },
-            color: Colors.black,
-          )
-        ],
-      ),
-      backgroundColor: Colors.white,
-      body: ListView.builder(
-        itemCount: 1,
-        itemBuilder: (context, index) {
-          return Column(
-            children: <Widget>[
-              Column(
+            
+          ),
+          backgroundColor: Colors.white,
+          body: ListView.builder(
+            physics: BouncingScrollPhysics(),
+            itemCount: 1,
+            itemBuilder: (context, index) {
+              return Column(
                 children: <Widget>[
-                  
-                  Container(
-                      width: responsive.width,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                      ),
-                      child:Column(
+                  Column(
+                    children: <Widget>[
+                      Container(
+                        width: responsive.width,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                        ),
+                        child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
-                            
-                            Center(child: Image.asset('assets/large2020.png',width: double.infinity,height: 250,fit: BoxFit.cover,)),
-                            
-                            
+                            Center(
+                                child: Image.asset(
+                              'assets/large2020.png',
+                              width: double.infinity,
+                              height: 250,
+                              fit: BoxFit.cover,
+                            )),
                           ],
                         ),
-                      
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  SlideInUp(child: _LoadVerse()),
+                  SlideInUp(
+                      child: Image.asset(
+                    'assets/separator.png',
+                    width: 40,
+                    height: 40,
+                  )),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  SlideInUp(
+                    child: Container(
+                      child: Center(
+                        child: Column(
+                          children: <Widget>[
+                            Text(
+                              'Escucha IFC Radio',
+                              style: TextStyle(
+                                  fontSize: responsive.ip(2.5),
+                                  color: Colors.blueGrey),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Stack(
+                              children: <Widget>[
+                                Image.asset(
+                                  'assets/BLANCO.png',
+                                  width: 200,
+                                  height: 200,
+                                ),
+                                Positioned(
+                                  top: 57,
+                                  left: 61,
+                                  child: FlatButton(
+                                    child: value.isPlaying()
+                                        ? Icon(
+                                            Icons.stop,
+                                            size: 40,
+                                            color: Colors.white,
+                                          )
+                                        : Icon(
+                                            Icons.play_arrow,
+                                            size: 40,
+                                            color: Colors.white,
+                                          ),
+                                    onPressed: () {
+                                      value.isPlaying()
+                                          ? value.audioPause()
+                                          : value.audioStart();
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
-                  
+                  ),
+                  SizedBox(
+                    height: 40,
+                  ),
+                  SlideInUp(
+                      child: Container(
+                    color: Colors.white,
+                    child: VideoPlayerIFC(),
+                    height: 200,
+                    width: double.infinity,
+                  )),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  SlideInUp(
+                      child: Text(
+                    'Creemos en Jesús, nuestro Señor y Salvador.',
+                    style: TextStyle(
+                        fontSize: responsive.ip(1.5),
+                        fontStyle: FontStyle.italic),
+                  )),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  SlideInUp(
+                      child: Image.asset(
+                    'assets/separator.png',
+                    width: 40,
+                    height: 40,
+                  )),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  SlideInUp(
+                      child: Column(
+                    children: <Widget>[
+                      Container(child: _ListaOpciones()),
+                    ],
+                  )),
                 ],
-              ),
-              
-              
-              SizedBox(
-                height: 10,
-              ),
-              SlideInUp(child: _LoadVerse()),
-              
-              SlideInUp(child: Image.asset('assets/separator.png', width: 40, height: 40,)),
-              SizedBox(
-                height: 10,
-              ),
-              SlideInUp(child: Container(color: Colors.white,child: VideoPlayerIFC(), height: 200,width: double.infinity,)),
-              SizedBox(
-                height: 20,
-              ),
-              SlideInUp(child: Text('Creemos en Jesús, nuestro Señor y Salvador.', style: TextStyle(fontSize: responsive.ip(1.5), fontStyle: FontStyle.italic),)),
-              SizedBox(
-                height: 10,
-              ),
-              SlideInUp(child: Image.asset('assets/separator.png',width: 40, height: 40,)),
-              SizedBox(
-                height: 10,
-              ),
-              SlideInUp(
-                  child: Column(
-                children: <Widget>[
-                  Container(child: _ListaOpciones()),
-                ],
-              )),
-            ],
-          );
-        },
+              );
+            },
+          ),
+        ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 }
 
@@ -136,7 +216,7 @@ class _LoadVerseState extends State<_LoadVerse> {
   Widget build(BuildContext context) {
     final responsive = Responsive(context);
     return FutureBuilder(
-      future: Firestore.instance.collection('versiculo').document('1').get(),
+      future: Firestore.instance.collection('versiculo').document(day).get(),
       builder: (BuildContext context, AsyncSnapshot snapShot) {
         if (!snapShot.hasData) {
           return CupertinoActivityIndicator();
@@ -207,13 +287,15 @@ class _ListaOpciones extends StatelessWidget {
         title: Text(
           pageRoutes[i].titulo,
           style: TextStyle(
-              fontWeight: FontWeight.bold,
-              color: LightColors.kgrey,
-              fontSize: responsive.ip(2),
+            fontWeight: FontWeight.bold,
+            color: LightColors.kgrey,
+            fontSize: responsive.ip(2),
           ),
         ),
-        subtitle: Text(pageRoutes[i].subtitle,
-            style: TextStyle(color: Colors.blueGrey, fontSize: responsive.ip(1.7)),
+        subtitle: Text(
+          pageRoutes[i].subtitle,
+          style:
+              TextStyle(color: Colors.blueGrey, fontSize: responsive.ip(1.7)),
         ),
         onTap: () {
           Navigator.push(context,

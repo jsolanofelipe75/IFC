@@ -6,15 +6,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class LoginState with ChangeNotifier {
-  
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   final FirebaseAuth _auth = FirebaseAuth.instance;
   Firestore _db = Firestore.instance;
-  var errorMessage = 'oops';
 
   SharedPreferences _prefs;
-
-  
 
   bool _loggedIn = false;
   bool _isLoading = true;
@@ -47,8 +43,8 @@ class LoginState with ChangeNotifier {
             'name': _user.displayName,
             'email': _user.email,
             'photoUrl': _user.photoUrl,
-            'createdAt': DateTime.now(),
-            'celular': ''
+            'createdAt': DateTime.now().millisecondsSinceEpoch,
+            'celular': _user.phoneNumber
           });
         }
         notifyListeners();
@@ -78,18 +74,20 @@ class LoginState with ChangeNotifier {
   }
 
   Future<FirebaseUser> _handleSignIn() async {
-  final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
-  final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+    final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
+    final GoogleSignInAuthentication googleAuth =
+        await googleUser.authentication;
 
-  final AuthCredential credential = GoogleAuthProvider.getCredential(
-    accessToken: googleAuth.accessToken,
-    idToken: googleAuth.idToken,
-  );
+    final AuthCredential credential = GoogleAuthProvider.getCredential(
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken,
+    );
 
-  final FirebaseUser user = (await _auth.signInWithCredential(credential)).user;
-  print("signed in " + user.displayName);
-  return user;
-}
+    final FirebaseUser user =
+        (await _auth.signInWithCredential(credential)).user;
+    print("signed in " + user.displayName);
+    return user;
+  }
 
   void signInWithEmailAndPassword(String email, String password) async {
     _isLoading = true;
@@ -122,22 +120,22 @@ class LoginState with ChangeNotifier {
           print("EMAIL INCORRECTA.");
           break;
         case "ERROR_WRONG_PASSWORD":
-          print("EMAIL INCORRECTA.");
+          print("CONTRASEÑA INCORRECTA.");
           break;
         case "ERROR_USER_NOT_FOUND":
-          print("EMAIL INCORRECTA.");
+          print("USUARIO NO ENCONTRADO.");
           break;
         case "ERROR_USER_DISABLED":
-          print("EMAIL INCORRECTA.");
+          print("USUARIO DESACTIVADO.");
           break;
         case "ERROR_TOO_MANY_REQUESTS":
-          print("EMAIL INCORRECTA.");
+          print("ERROR EN LAS PETICIONES.");
           break;
         case "ERROR_OPERATION_NOT_ALLOWED":
-          print("EMAIL INCORRECTA.");
+          print("OPERACIÓN NO PERMITIDA.");
           break;
         default:
-          print("EMAIL INCORRECTA.");
+          print("ERROR DESCONOCIDO.");
       }
 
       notifyListeners();

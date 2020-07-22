@@ -1,10 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:pruebas/pages/example.dart';
 import 'package:pruebas/pages/bible_page.dart';
 import 'package:pruebas/pages/iglesia_page.dart';
 import 'package:pruebas/pages/minister_page.dart';
-import 'package:pruebas/pages/radio_stream.dart';
 import 'package:pruebas/pages/videos_page.dart';
+
 
 
 final pageRoutes = <_Route>[
@@ -12,7 +13,7 @@ final pageRoutes = <_Route>[
   _Route(CupertinoIcons.group_solid, 'Ministerios','En la Iglesia Familiar Cristiana contamos con...', MinisterPage(), Colors.orange),
   _Route(CupertinoIcons.video_camera_solid, 'Predicas','Predicas disponibles en nuestro canal de Youtube', VideosListPage(), Colors.blue),
   _Route(CupertinoIcons.book_solid, 'Biblia digital','Cargado de la versión web de YouVersion' ,WebViewS(), Colors.redAccent),
-  _Route(CupertinoIcons.phone_solid, 'Contacto','Revisa los devocionales que tenemos para ti', RadioStream(), Colors.green),
+  _Route(CupertinoIcons.phone_solid, 'Contacto','Revisa los devocionales que tenemos para ti', Example(), Colors.green),
  
 
 ];

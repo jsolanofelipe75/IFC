@@ -140,10 +140,10 @@ class _RegisterPageState extends State<RegisterPage> {
 
         if (_user != null) {
           _db.collection('usuarios').document(_user.uid).setData({
-            'name': _user.displayName,
+            'name': '',
             'email': _user.email,
             'photoUrl': '',
-            'createdAt': DateTime.now(),
+            'createdAt': DateTime.now().millisecondsSinceEpoch,
             'celular': ''
           });
           showCupertinoDialog(
@@ -152,7 +152,7 @@ class _RegisterPageState extends State<RegisterPage> {
               return AlertDialog(
                 title: Text('Hecho'),
                 content: Text(
-                    'Registro exitoso ahora puedes ingresar como ${_user.email}'),
+                    'Registro exitoso ahora puedes ingresar como  ${_user.email}'),
                 actions: <Widget>[
                   FlatButton(
                     onPressed: () {

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:pruebas/utils/responsive.dart';
@@ -110,7 +111,8 @@ class _ListaItems extends StatelessWidget {
                     SizedBox(
                       height: 15,
                     ),
-                    Image.network(showdata[i]["image"], width: double.infinity, height: 210,fit: BoxFit.cover,),
+                    CachedNetworkImage(imageUrl: showdata[i]["image"], width: double.infinity, height: 210,fit: BoxFit.cover,),
+                    
                     SizedBox(
                       height: 10,
                     ),

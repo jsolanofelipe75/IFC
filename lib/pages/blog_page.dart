@@ -13,12 +13,10 @@ class BlogPage extends StatefulWidget {
 }
 
 class _BlogPageState extends State<BlogPage> {
-
   final postsProvider = PostsProvider();
 
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
       backgroundColor: Colors.white,
       body: Stack(
@@ -60,7 +58,7 @@ class _BlogPageState extends State<BlogPage> {
                   color: Colors.white),
               child: Padding(
                 padding: EdgeInsets.only(left: 5, right: 5),
-                child:_crearListado(),
+                child: _crearListado(),
               ),
             ),
           ),
@@ -93,14 +91,12 @@ class _BlogPageState extends State<BlogPage> {
           );
         var posts = snapShot.data;
         return ListView.builder(
-          physics: BouncingScrollPhysics(),
-          itemCount: posts.length,
-          itemBuilder: (context, index){
-            Map posts = snapShot.data[index];
-            return CardEventItem(post: posts);
-          } 
-        
-        );
+            physics: BouncingScrollPhysics(),
+            itemCount: posts.length,
+            itemBuilder: (context, index) {
+              Map posts = snapShot.data[index];
+              return CardEventItem(post: posts);
+            });
       },
     );
   }

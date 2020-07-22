@@ -19,16 +19,19 @@ dependencies:
   flutter_radio: ^0.1.8
   video_player: ^0.10.11+2
   cloud_firestore: ^0.13.7
+  flutter_radio_player: 
   firebase_auth: ^0.16.1
   google_sign_in: ^4.5.1
   cached_network_image: ^2.2.0+1
   flutter_custom_clippers: ^1.1.1
   animate_do: ^1.7.2
   flutter_youtube: ^2.0.0
-  shared_preferences: ^0.5.7+3
+  shared_preferences: ^0.5.8
   font_awesome_flutter: ^8.8.1
   bubble_bottom_bar: ^1.2.0
-  timeago: ^2.0.26
+  
+  
+  
 
 dev_dependencies:
   flutter_test:

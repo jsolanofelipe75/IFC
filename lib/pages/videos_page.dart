@@ -1,13 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
-import 'package:pruebas/api/youtube_api.dart';
-
-import 'package:pruebas/keys/keys.dart';
-
-import 'package:pruebas/models/youtube_video.dart';
-import 'package:pruebas/theme/colors.dart';
-import '../widgets/youtube_video_item.dart';
+import 'package:pruebas/pages/Ifc_tab_page.dart';
+import 'package:pruebas/pages/ifckids_tab_page.dart';
 
 class VideosListPage extends StatefulWidget {
   VideosListPage({Key key}) : super(key: key);
@@ -17,107 +11,37 @@ class VideosListPage extends StatefulWidget {
 }
 
 class _VideosPageState extends State<VideosListPage> {
-  YoutubeAPI _youtubeAPI = YoutubeAPI(apiKey: YT_API_KEY);
-
-  List<YouTubeVideo> _videos = [];
-
-  @override
-  void initState() {
-    super.initState();
-    _load();
-  }
-
-  _load() async {
-    final List<YouTubeVideo> videoList =
-        await _youtubeAPI.getNewVideos('UC31EA4cMrAavsIcafmuebnA');
-    setState(() {
-      _videos.addAll(videoList);
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: CustomScrollView(
-        slivers: <Widget>[
-          SliverAppBar(
-            backgroundColor: LightColors.kgrey,
-            expandedHeight: 200,
-            pinned: false,
-            floating: false,
-            snap: false,
-            flexibleSpace: FlexibleSpaceBar(
-              collapseMode: CollapseMode.parallax,
-              background: Padding(
-                padding: const EdgeInsets.only(top: 20.0, left: 15, right: 15),
-                child: Image.asset('assets/ifc_en_casa.png'),
-              ),
-            ),
-            title: Text(''),
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        appBar: AppBar(
+          elevation: 0,
+          bottom: TabBar(
+            tabs: [
+              Tab(
+                  icon: Image.asset(
+                'assets/logo_negro_solo.png',
+                scale: 55,
+              )),
+              Tab(
+                  icon: Image.asset(
+                'assets/IFCKIDS.png',
+                scale: 60,
+              )),
+            ],
           ),
-          SliverList(
-            delegate: SliverChildListDelegate(
-              [
-                Stack(
-                  children: <Widget>[
-                    ClipPath(
-                      clipper: WaveClipperOne(),
-                      child: Container(
-                        width: double.infinity,
-                        height: 230.0,
-                        decoration: BoxDecoration(
-                          color: LightColors.kLightYellow2,
-                        ),
-                      ),
-                    ),
-                    ClipPath(
-                      clipper: WaveClipperTwo(),
-                      child: Container(
-                        width: double.infinity,
-                        height: 200.0,
-                        decoration: BoxDecoration(
-                          color: LightColors.kgrey,
-                        ),
-                      ),
-                    ),
-                    (_videos.length == 0)
-                        ? Container(
-                            height: 80,
-                            child: Center(
-                              child: CupertinoActivityIndicator(
-                                radius: 20,
-                              ),
-                            ),
-                          )
-                        : LisVideos(items: _videos),
-                  ],
-                ),
-              ],
-            ),
-          )
-        ],
+          title: Image.asset(
+            'assets/ifc_en_casa.png',
+            scale: 40,
+          ),
+          centerTitle: true,
+        ),
+        body: TabBarView(
+          children: [IfcTabPage(), IfcKidsTabPage()],
+        ),
       ),
-    );
-  }
-}
-
-class LisVideos extends StatelessWidget {
-  final List<YouTubeVideo> items;
-
-  const LisVideos({Key key, @required this.items})
-      : assert(items != null),
-        super(key: key);
-  @override
-  Widget build(BuildContext context) {
-    return ListView.builder(
-      padding: EdgeInsets.zero,
-      physics: NeverScrollableScrollPhysics(),
-      itemCount: items.length,
-      shrinkWrap: true,
-      itemBuilder: (BuildContext context, int index) {
-        final YouTubeVideo item = items[index];
-        return YouTubeVideoItem(item: item);
-      },
     );
   }
 }

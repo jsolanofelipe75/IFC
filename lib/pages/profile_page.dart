@@ -1,13 +1,14 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
-import 'package:pruebas/utils/extras.dart';
-import 'package:timeago/timeago.dart' as timeago;
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import 'package:pruebas/provider/login_state.dart';
+import 'package:pruebas/theme/colors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:pruebas/theme/colors.dart';
 import '../utils/responsive.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -70,7 +71,10 @@ class _ProfilePageState extends State<ProfilePage> {
                 Firestore.instance.collection('usuarios').document(id).get(),
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               if (snapshot.hasData) {
-              Timestamp  date = snapshot.data['createdAt'];
+                int timestamp = snapshot.data['createdAt'];
+                DateTime date =
+                    DateTime.fromMicrosecondsSinceEpoch(timestamp * 1000);
+                String formattedDate = DateFormat.yMMMd().format(date);
                 return ListView(
                   padding: EdgeInsets.all(8.0),
                   children: <Widget>[
@@ -113,31 +117,32 @@ class _ProfilePageState extends State<ProfilePage> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: <Widget>[
                               Text(
-                                snapshot.data['email'],
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .subtitle2
-                                    .copyWith(color: Colors.blueGrey),
+                                "Correo: ${snapshot.data['email']}",
+                                style: TextStyle(fontSize: responsive.ip(2.0),color: Colors.blueGrey),
                               ),
                               SizedBox(
                                 height: 15,
                               ),
                               Text(
-                                'Telefono: 3186983440',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .subtitle2
-                                    .copyWith(color: Colors.blueGrey),
+                                'Telefono: ',
+                                style: TextStyle(fontSize: responsive.ip(2.0),color: Colors.blueGrey),
                               ),
                               SizedBox(
                                 height: 15,
                               ),
                               Text(
-                               snapshot.data['createdAt'],
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .subtitle2
-                                    .copyWith(color: Colors.black),
+                                'Miembro desde: $formattedDate',
+                                style: TextStyle(fontSize: responsive.ip(2.0),color: Colors.blueGrey),
+                              ),
+                              SizedBox(
+                                height: 35,
+                              ),
+                              Center(
+                                child: FlatButton(
+                                    onPressed: () {
+                                      Provider.of<LoginState>(context, listen: false).logout();
+                                    },
+                                    child: Text('Cerrar sesión',style: TextStyle(fontSize: responsive.ip(2.0),color: Colors.blueGrey),)),
                               ),
                               SizedBox(
                                 height: 15,
@@ -165,7 +170,7 @@ class _ProfilePageState extends State<ProfilePage> {
 }
 
 CircleAvatar _loadAvatar(String image, double radius) {
-  if (image == null) {
+  if (image == '') {
     return CircleAvatar(
       backgroundColor: Colors.white,
       radius: radius,
