@@ -110,7 +110,7 @@ class _ListaItems extends StatelessWidget {
                     SizedBox(
                       height: 15,
                     ),
-                    Image.network(showdata[i]["image"], width: double.infinity, height: 200,),
+                    Image.network(showdata[i]["image"], width: double.infinity, height: 210,fit: BoxFit.cover,),
                     SizedBox(
                       height: 10,
                     ),

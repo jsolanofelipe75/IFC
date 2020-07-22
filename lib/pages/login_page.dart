@@ -24,7 +24,7 @@ class _LoginPageState extends State<LoginPage> {
     final responsive = Responsive(context);
     return Scaffold(
       body: Consumer<LoginState>(
-        builder: (BuildContext context, LoginState state, Widget child) {
+        builder: (context, state, child) {
           if (state.isLoading()) {
             return Center(child: CupertinoActivityIndicator());
           } else {
