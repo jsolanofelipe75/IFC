@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_radio/flutter_radio.dart';
+
+import 'package:flutter/services.dart';
+import 'dart:async';
+import 'package:flutter_radio_player/flutter_radio_player.dart';
 
 class StreamState with ChangeNotifier {
-  static const streamUrl = 'https://estructuraweb.com.co:9138/live';
 
+  static const streamUrl = 'https://estructuraweb.com.co:9138/live';
+  FlutterRadioPlayer _flutterRadioPlayer = FlutterRadioPlayer();
 
   bool _playing = false;
 
@@ -11,28 +15,26 @@ class StreamState with ChangeNotifier {
     streamState();
   }
 
+
   bool isPlaying() => _playing;
 
   Future audioStart() async {
-    if (_playing == false) {
-      try {
-        await FlutterRadio.audioStart().whenComplete(() => audioPlay());
-        print('Audio Start OK');
-      } catch (e) {
-        print(e.toString());
-      }
-      notifyListeners();
-    } else {
-      audioPlay();
-      notifyListeners();
+    try {
+      await _flutterRadioPlayer.init("IFC Radio", "En vivo",
+          streamUrl, "false");
+      print('=============== INICIADO');
+    } on PlatformException {
+      print("Ha ocurrido un error");
     }
+    notifyListeners();
   }
 
   Future audioPause() async {
     try {
-      await FlutterRadio.pause(url: streamUrl);
-    
+      await _flutterRadioPlayer.pause();
+
       _playing = false;
+      print('=============== PAUSEE');
     } catch (e) {
       print(e.toString());
     }
@@ -41,23 +43,23 @@ class StreamState with ChangeNotifier {
 
   Future audioPlay() async {
     try {
-      await FlutterRadio.play(url: streamUrl);
-     
+      await _flutterRadioPlayer.play();
+
       _playing = true;
+      print('=============== PLAYYY');
     } catch (e) {
       print(e.toString());
     }
     notifyListeners();
   }
 
-  Future<bool> audioStop() async{
+  Future<bool> audioStop() async {
     try {
-       await FlutterRadio.stop();
+      await _flutterRadioPlayer.stop();
       _playing = false;
 
-      print('=============== se detuvo');
+      print('=============== STOPP');
       notifyListeners();
-      
     } catch (e) {
       print(e.toString());
     }
@@ -66,14 +68,17 @@ class StreamState with ChangeNotifier {
   }
 
   void streamState() async {
-   
-    bool isplaying = await FlutterRadio.isPlaying();
-    if (isplaying == true) {
+    
+    FlutterRadioPlayer _flutterRadioPlayer = FlutterRadioPlayer();
+     bool isplaying = await _flutterRadioPlayer.isPlaying();
+    if (isplaying) {
       _playing = true;
-
+      print('=============== VERDADERO');
       notifyListeners();
     } else {
+      audioStart();
       _playing = false;
+      print('=============== FALSEEE');
       notifyListeners();
     }
   }

@@ -7,7 +7,7 @@ import 'package:pruebas/pages/blog_page.dart';
 import 'package:pruebas/pages/main_page.dart';
 import 'package:pruebas/pages/profile_page.dart';
 import 'package:pruebas/theme/colors.dart';
-import 'package:flutter_radio/flutter_radio.dart';
+
 
 class HomePage extends StatefulWidget {
   @override
@@ -28,16 +28,8 @@ class _HomePageState extends State<HomePage> {
     return ChangeNotifierProvider(
       create: (_) => _NavegacionModel(),
       child: Consumer<_NavegacionModel>(
-        builder: (context, value, child) => WillPopScope(
-          onWillPop: () async {
-            if (await FlutterRadio.isPlaying()) {
-              await FlutterRadio.stop();
-              return true;
-            } else {
-              return true;
-            }
-          },
-          child: Scaffold(
+        builder: (context, value, child) =>
+           Scaffold(
             backgroundColor: Colors.white,
             body: value.currentScreen,
             bottomNavigationBar: BubbleBottomBar(
@@ -89,7 +81,7 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ),
-        ),
+        
       ),
     );
   }

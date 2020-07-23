@@ -122,7 +122,7 @@ class _HomePrincipalState extends State<HomePrincipal> {
                                     onPressed: () {
                                       value.isPlaying()
                                           ? value.audioPause()
-                                          : value.audioStart();
+                                          : value.audioPlay();
                                     },
                                   ),
                                 ),
