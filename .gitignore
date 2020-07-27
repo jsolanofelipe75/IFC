@@ -37,6 +37,8 @@ lib/keys/
 assets/
 GoogleService-Info.plist
 google-services.json
+key.properties
+
 
 
 # Web related

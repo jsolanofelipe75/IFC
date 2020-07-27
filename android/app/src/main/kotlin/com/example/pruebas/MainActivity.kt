@@ -1,4 +1,4 @@
-package com.example.pruebas
+package org.iglesiafamiliarcristiana.app
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity

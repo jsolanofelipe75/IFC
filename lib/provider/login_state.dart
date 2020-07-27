@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
 class LoginState with ChangeNotifier {
   final GoogleSignIn _googleSignIn = GoogleSignIn();
@@ -15,6 +16,7 @@ class LoginState with ChangeNotifier {
   bool _loggedIn = false;
   bool _isLoading = true;
   FirebaseUser _user;
+  String _token;
 
   LoginState() {
     loginState();
@@ -64,14 +66,79 @@ class LoginState with ChangeNotifier {
       return null;
     }
   }
-
-  void logout() {
-    _prefs.clear();
-    _auth.signOut();
-    _googleSignIn.signOut();
-    _loggedIn = false;
+  void loginFacebook() async {
+    _isLoading = true;
     notifyListeners();
+
+    try {
+      _user = await _handleFacebookSignIn();
+
+      _isLoading = false;
+
+      if (_user != null) {
+        _prefs.setBool('isLoggedIn', true);
+        _prefs.setString('uid', _user.uid);
+        _loggedIn = true;
+        if (_user != null) {
+          _db.collection('usuarios').document(_user.uid).setData({
+            'name': _user.displayName,
+            'email': _user.email,
+            'photoUrl': _user.photoUrl,
+            'createdAt': DateTime.now().millisecondsSinceEpoch,
+            'celular': _user.phoneNumber
+          });
+        }
+        notifyListeners();
+      } else {
+        _loggedIn = false;
+        notifyListeners();
+      }
+    } on PlatformException catch (err) {
+        print(err.toString());
+        _isLoading = false;
+        _loggedIn = false;
+        notifyListeners();
+
+      return null;
+    }
   }
+
+  _printCredentials(LoginResult result) {
+    _token = result.accessToken.token;
+    print("userId: ${result.accessToken.userId}");
+    print("token: $_token");
+    print("expires: ${result.accessToken.expires}");
+    print("grantedPermission: ${result.grantedPermissions}");
+    print("declinedPermissions: ${result.declinedPermissions}");
+  }
+
+  Future<FirebaseUser> _handleFacebookSignIn() async {
+    final result = await FacebookAuth.instance.login();
+
+    switch (result.status) {
+      case FacebookAuthLoginResponse.ok: // result.status == 200
+        _printCredentials(result);
+        break;
+      case FacebookAuthLoginResponse.cancelled: // result.status == 403
+        print("login cancelled");
+        break;
+      default: // result.status == 500
+        print("login failed");
+    }
+  
+
+    final AuthCredential credential = FacebookAuthProvider.getCredential(
+      accessToken: result.accessToken.token,
+      
+    );
+
+    final FirebaseUser user =
+        (await _auth.signInWithCredential(credential)).user;
+    print("signed in " + user.displayName);
+    return user;
+  }
+
+
 
   Future<FirebaseUser> _handleSignIn() async {
     final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
@@ -153,5 +220,13 @@ class LoginState with ChangeNotifier {
       _isLoading = false;
       notifyListeners();
     }
+  }
+
+  void logout() {
+    _prefs.clear();
+    _auth.signOut();
+    _googleSignIn.signOut();
+    _loggedIn = false;
+    notifyListeners();
   }
 }

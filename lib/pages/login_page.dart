@@ -142,6 +142,7 @@ class _LoginPageState extends State<LoginPage> {
                         border: InputBorder.none,
                         labelText: "Contraseña",
                         hintText: 'Escribe tu contraseña',
+                        
                         contentPadding:
                             EdgeInsets.symmetric(horizontal: 15, vertical: 5),
                       ),
@@ -222,18 +223,36 @@ class _LoginPageState extends State<LoginPage> {
                   ],
                 ),
                 SizedBox(height: 10),
-                Text('O inicia sesión con:'),
-                SizedBox(height: 10),
-                FlatButton(
-                  onPressed: () {
-                    Provider.of<LoginState>(context, listen: false)
-                        .loginGoogle();
-                  },
-                  child: Icon(
-                    FontAwesomeIcons.google,
-                    color: Colors.red[800],
+                Text('O inicia sesión con:', style: TextStyle(fontSize: responsive.ip(2.3)),),
+                SizedBox(height: 15),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      FlatButton(
+                        onPressed: () {
+                          Provider.of<LoginState>(context, listen: false)
+                              .loginGoogle();
+                        },
+                        child: Icon(
+                          FontAwesomeIcons.google,
+                          color: Colors.red[800],
+                          size: 40,
+                        ),
+                      ),
+                      FlatButton(
+                        onPressed: () {
+                          Provider.of<LoginState>(context, listen: false)
+                              .loginFacebook();
+                        },
+                        child: Icon(
+                          FontAwesomeIcons.facebookSquare,
+                          color: Colors.blue[900],
+                          size: 40,
+                        ),
+                      ),
+                    ],
                   ),
-                ),
+                
                 SizedBox(height: 30),
               ],
             ),

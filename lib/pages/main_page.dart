@@ -251,7 +251,7 @@ class _LoadVerseState extends State<_LoadVerse> {
                     height: 15,
                   ),
                   Text(
-                    'Genesis 1  2',
+                    snapShot.data['ref'],
                     style: TextStyle(
                         fontSize: responsive.ip(2),
                         color: LightColors.kgrey,
