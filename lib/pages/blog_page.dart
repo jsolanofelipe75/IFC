@@ -37,7 +37,7 @@ class _BlogPageState extends State<BlogPage> {
               child: Padding(
                   padding: const EdgeInsets.only(left: 50, top: 30.0),
                   child: TextThemeTitle(
-                    text: 'Blog y recursos',
+                    text: 'Blog y Recursos',
                     color: Colors.white,
                   ))),
           Padding(

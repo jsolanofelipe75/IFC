@@ -15,9 +15,7 @@ class IglesiaPage extends StatelessWidget {
         physics: BouncingScrollPhysics(),
         slivers: <Widget>[
           SliverAppBar(
-            brightness: Brightness.dark,
             elevation: 3,
-         
             expandedHeight: 180,
             pinned: false,
             floating: false,
@@ -25,24 +23,27 @@ class IglesiaPage extends StatelessWidget {
             flexibleSpace: FlexibleSpaceBar(
               collapseMode: CollapseMode.parallax,
               background: Stack(
-                  children: <Widget>[
-                    Image.asset('assets/Vision.jpg', fit: BoxFit.cover,height: double.infinity,),
-                    Center(
-                      child: Container(
-                        color: Colors.black26,
-                        child: Text(
-                          'conoce nuestra \nmisión y visión',
-                          style: TextStyle(
-                              fontSize: responsive.ip(3.5),
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        alignment: Alignment.center,
+                children: <Widget>[
+                  Image.asset(
+                    'assets/Vision.jpg',
+                    fit: BoxFit.cover,
+                    height: double.infinity,
+                  ),
+                  Center(
+                    child: Container(
+                      color: Colors.black26,
+                      child: Text(
+                        'conoce nuestra \nmisión y visión',
+                        style: TextStyle(
+                            fontSize: responsive.ip(3.5),
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold),
                       ),
+                      alignment: Alignment.center,
                     ),
-                  ],
-                ),
-              
+                  ),
+                ],
+              ),
             ),
           ),
           SliverList(

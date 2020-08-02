@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:html/parser.dart';
 import 'package:pruebas/utils/responsive.dart';
+import 'package:pruebas/theme/colors.dart';
 
 import '../utils/extras.dart';
 
@@ -77,8 +78,8 @@ class CardEventItem extends StatelessWidget {
                       alignment: Alignment.bottomRight,
                       child: Text(
                         Extras.fromNow(date),
-                        style: TextStyle(
-                            fontSize: responsive.ip(1.5), color: Colors.grey),
+                        style: TextStyle(fontWeight: FontWeight.bold,
+                            fontSize: responsive.ip(1.3), color: LightColors.kgrey),
                       )),
                 ],
               ),

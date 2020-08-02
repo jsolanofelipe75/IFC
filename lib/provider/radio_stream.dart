@@ -10,7 +10,7 @@ class StreamState with ChangeNotifier {
 
   bool _playing = false;
 
-  StreamState() {
+  StreamState()  {
     audioStart();
     streamState();
   }
@@ -27,23 +27,10 @@ class StreamState with ChangeNotifier {
     }
     notifyListeners();
   }
-
-  Future audioPause() async {
-    try {
-      await _flutterRadioPlayer.pause();
-
-      _playing = false;
-      print('=============== PAUSEE');
-    } catch (e) {
-      print(e.toString());
-    }
-    notifyListeners();
-  }
-
+  
   Future audioPlay() async {
     try {
       await _flutterRadioPlayer.play();
-
       _playing = true;
       print('=============== PLAYYY');
     } catch (e) {
@@ -52,34 +39,41 @@ class StreamState with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<bool> audioStop() async {
+  Future audioPause() async {
+    try {
+      await _flutterRadioPlayer.pause();
+      _playing = false;
+      print('=============== PAUSEE');
+    } catch (e) {
+      print(e.toString());
+    }
+    notifyListeners();
+  }
+
+  Future audioStop() async {
     try {
       await _flutterRadioPlayer.stop();
       _playing = false;
-
       print('=============== STOPP');
       notifyListeners();
     } catch (e) {
       print(e.toString());
     }
-
-    return true;
   }
 
   void streamState() async {
     try {
       bool playing = await _flutterRadioPlayer.isPlaying();
-      print('==============00$playing');
       if (playing) {
-      _playing = true;
-      print('=============== VERDADERO');
-      notifyListeners();
-    } else {
-      //audioStart();
-      _playing = false;
-      print('=============== FALSEEE');
-      notifyListeners();
-    }
+        _playing = true;
+        notifyListeners();
+        print('==============TRUE');
+      } else {
+        //audioStart();
+        _playing = false;
+        notifyListeners();
+        print('==============FALSEE');
+      }
     } catch (e) {
       print(e.toString());
     }

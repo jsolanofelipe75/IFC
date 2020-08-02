@@ -25,35 +25,46 @@ class _MyAppState extends State<MyApp> {
         DeviceOrientation.portraitUp,
         DeviceOrientation.portraitDown,
       ]);
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider<LoginState>(
-            create: (BuildContext context) => LoginState()),
-        ChangeNotifierProvider<StreamState>(
-            create: (BuildContext context) => StreamState()),
-      ],
-      child: MaterialApp(
-        title: 'IFC',
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          primaryColor: LightColors.kgrey,
-          accentColor: LightColors.kLightYellow,
-          textTheme: Theme.of(context).textTheme.apply(
-              bodyColor: LightColors.kDarkBlue,
-              displayColor: LightColors.kDarkBlue,
-              fontFamily: 'Poppins'),
-        ),
-        routes: {
-          '/': (BuildContext context) {
-            var state = Provider.of<LoginState>(context);
-            if (state.isLoggedIn()) {
-              return HomePage();
-            } else {
-              return LoginPage();
-            }
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle(
+        statusBarColor: LightColors.kgrey,
+        statusBarBrightness: Brightness.dark,
+        statusBarIconBrightness: Brightness.light,
+        systemNavigationBarColor: Colors.white,
+        systemNavigationBarIconBrightness: Brightness.dark,
+        
+      ),
+      sized: true,
+          child: MultiProvider(
+        providers: [
+          ChangeNotifierProvider<LoginState>(
+              create: (BuildContext context) => LoginState()),
+          ChangeNotifierProvider<StreamState>(
+              create: (BuildContext context) => StreamState()),
+        ],
+        child: MaterialApp(
+          title: 'IFC',
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData(
+            primaryColor: LightColors.kgrey,
+            accentColor: LightColors.kLightYellow,
+            textTheme: Theme.of(context).textTheme.apply(
+                bodyColor: LightColors.kDarkBlue,
+                displayColor: LightColors.kDarkBlue,
+                fontFamily: 'Poppins'),
+          ),
+          routes: {
+            '/': (BuildContext context) {
+              var state = Provider.of<LoginState>(context);
+              if (state.isLoggedIn()) {
+                return HomePage();
+              } else {
+                return LoginPage();
+              }
+            },
+            '/eventoDetail': (context) => EventoDetailPage(),
           },
-          '/eventoDetail': (context) => EventoDetailPage(),
-        },
+        ),
       ),
     );
   }

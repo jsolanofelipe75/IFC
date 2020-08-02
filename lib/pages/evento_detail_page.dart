@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:html/parser.dart';
 import 'package:pruebas/utils/extras.dart';
 import 'package:pruebas/utils/responsive.dart';
+import 'package:pruebas/theme/colors.dart';
 
 class EventoDetailPage extends StatelessWidget {
   @override
@@ -35,7 +36,9 @@ class EventoDetailPage extends StatelessWidget {
                         child: FadeInImage(
                           height: double.infinity,
                           width: double.infinity,
-                          placeholder: AssetImage('assets/logo_negro_solo.png'),
+                          placeholder: AssetImage(
+                            'assets/logo_negro_solo.png',
+                          ),
                           image: NetworkImage(
                             post['_embedded']['wp:featuredmedia'][0]
                                     ['media_details']['sizes']['medium_large']
@@ -97,7 +100,7 @@ class EventoDetailPage extends StatelessWidget {
                               child: Text(
                                 Extras.fromNow(date),
                                 style: TextStyle(
-                                    color: Colors.blueGrey,
+                                    color: LightColors.kgrey,
                                     fontSize: responsive.ip(1.9),
                                     fontWeight: FontWeight.bold),
                               ),
