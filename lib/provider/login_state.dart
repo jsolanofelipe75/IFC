@@ -2,6 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:pruebas/utils/db.dart';
+import 'package:sembast/sembast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
@@ -12,11 +14,12 @@ class LoginState with ChangeNotifier {
   Firestore _db = Firestore.instance;
 
   SharedPreferences _prefs;
+  final StoreRef _store = StoreRef.main();
+  final Database _database = DB.instance.database;
 
   bool _loggedIn = false;
   bool _isLoading = true;
   FirebaseUser _user;
-  String _token;
 
   LoginState() {
     loginState();
@@ -41,13 +44,14 @@ class LoginState with ChangeNotifier {
         _prefs.setString('uid', _user.uid);
         _loggedIn = true;
         if (_user != null) {
-          _db.collection('usuarios').document(_user.uid).setData({
+          _db.collection('usuarios').document(_user.uid).updateData({
             'name': _user.displayName,
             'email': _user.email,
             'photoUrl': _user.photoUrl,
             'createdAt': DateTime.now().millisecondsSinceEpoch,
             'celular': _user.phoneNumber
           });
+          
         }
         notifyListeners();
       } else {
@@ -66,6 +70,7 @@ class LoginState with ChangeNotifier {
       return null;
     }
   }
+
   void loginFacebook() async {
     _isLoading = true;
     notifyListeners();
@@ -80,7 +85,7 @@ class LoginState with ChangeNotifier {
         _prefs.setString('uid', _user.uid);
         _loggedIn = true;
         if (_user != null) {
-          _db.collection('usuarios').document(_user.uid).setData({
+          _db.collection('usuarios').document(_user.uid).updateData({
             'name': _user.displayName,
             'email': _user.email,
             'photoUrl': _user.photoUrl,
@@ -94,30 +99,22 @@ class LoginState with ChangeNotifier {
         notifyListeners();
       }
     } on PlatformException catch (err) {
-        print(err.toString());
-        _isLoading = false;
-        _loggedIn = false;
-        notifyListeners();
+      print(err.toString());
+      _isLoading = false;
+      _loggedIn = false;
+      notifyListeners();
 
       return null;
     }
   }
 
-  _printCredentials(LoginResult result) {
-    _token = result.accessToken.token;
-    print("userId: ${result.accessToken.userId}");
-    print("token: $_token");
-    print("expires: ${result.accessToken.expires}");
-    print("grantedPermission: ${result.grantedPermissions}");
-    print("declinedPermissions: ${result.declinedPermissions}");
-  }
+  
 
   Future<FirebaseUser> _handleFacebookSignIn() async {
     final result = await FacebookAuth.instance.login();
 
     switch (result.status) {
       case FacebookAuthLoginResponse.ok: // result.status == 200
-        _printCredentials(result);
         break;
       case FacebookAuthLoginResponse.cancelled: // result.status == 403
         print("login cancelled");
@@ -125,11 +122,9 @@ class LoginState with ChangeNotifier {
       default: // result.status == 500
         print("login failed");
     }
-  
 
     final AuthCredential credential = FacebookAuthProvider.getCredential(
       accessToken: result.accessToken.token,
-      
     );
 
     final FirebaseUser user =
@@ -137,8 +132,6 @@ class LoginState with ChangeNotifier {
     print("signed in " + user.displayName);
     return user;
   }
-
-
 
   Future<FirebaseUser> _handleSignIn() async {
     final GoogleSignInAccount googleUser = await _googleSignIn.signIn();

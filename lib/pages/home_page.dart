@@ -28,30 +28,6 @@ class _HomePageState extends State<HomePage> {
       create: (_) => _NavegacionModel(),
       child: Consumer<_NavegacionModel>(
         builder: (context, value, child) => Scaffold(
-          /*floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
-          floatingActionButton: Consumer<StreamState>(
-            builder: (BuildContext context, StreamState value, Widget child) =>
-                FloatingActionButton(
-                    heroTag: 'play',
-                    tooltip: 'Reproducir',
-                    backgroundColor: LightColors.kgrey,
-                    child: value.isPlaying()
-                        ? Icon(
-                            Icons.stop,
-                            size: 40,
-                            color: Colors.white,
-                          )
-                        : Icon(
-                            Icons.play_arrow,
-                            size: 40,
-                            color: Colors.white,
-                          ),
-                    onPressed: () {
-                      value.isPlaying()
-                          ? value.audioPause()
-                          : value.audioPlay();
-                    }),
-          ),*/
           backgroundColor: Colors.white,
           body: value.currentScreen,
           bottomNavigationBar: BubbleBottomBar(

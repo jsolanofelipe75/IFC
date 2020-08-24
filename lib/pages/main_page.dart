@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:pruebas/provider/radio_stream.dart';
 import 'package:pruebas/theme/colors.dart';
 import 'package:pruebas/utils/video_player.dart';
-import 'package:pruebas/widgets/main_video.dart';
+
 
 import '../routes/routes.dart';
 import '../utils/responsive.dart';
@@ -78,6 +78,26 @@ class _HomePrincipalState extends State<HomePrincipal> {
                       height: 10,
                     ),
                     SlideInUp(
+                        child: Container(
+                          color: Colors.white,
+                          child: VideoPlayerIFC(video: 'assets/IFC.mp4',tag: '1',),
+                          height: 150,
+                          width: double.infinity,
+                        )),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    SlideInUp(
+                        child: Text(
+                          'Creemos en Jesús, nuestro Señor y Salvador.',
+                          style: TextStyle(
+                              fontSize: responsive.ip(1.5),
+                              fontStyle: FontStyle.italic),
+                        )),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    SlideInUp(
                       child: Container(
                         child: Center(
                           child: Column(
@@ -128,30 +148,7 @@ class _HomePrincipalState extends State<HomePrincipal> {
                       ),
                     ),
                     SizedBox(
-                      height: 40,
-                    ),
-                    SlideInUp(
-                        child: Container(
-                      color: Colors.white,
-                      child: VideoPlayerIFC(),
-                      height: 200,
-                      width: double.infinity,
-                    )),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    SlideInUp(
-                        child: Text(
-                      'Creemos en Jesús, nuestro Señor y Salvador.',
-                      style: TextStyle(
-                          fontSize: responsive.ip(1.5),
-                          fontStyle: FontStyle.italic),
-                    )),
-                    SizedBox(
-                      height: 10,
+                      height: 5,
                     ),
                     SlideInUp(
                         child: Image.asset(
@@ -162,9 +159,33 @@ class _HomePrincipalState extends State<HomePrincipal> {
                     SizedBox(
                       height: 10,
                     ),
-                    //MainVideo(),
+                    Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Container(
+                          child: Center(
+                            child: Text(
+                              'Conoce nuestra agenda semanal.',
+                              style: TextStyle(
+                                color: Colors.blueGrey,
+                                  fontSize: responsive.ip(1.8),
+                                  fontStyle: FontStyle.normal, fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                      ),
+                    ),
                     SizedBox(
                       height: 10,
+                    ),
+                    SlideInUp(
+                        child: Container(
+                          color: Colors.white,
+                          child: VideoPlayerIFC(video: 'assets/Agenda.mp4',tag: '2',),
+                          height: 200,
+                          width: double.infinity,
+                        )),
+                    SizedBox(
+                      height: 20,
                     ),
                     SlideInUp(
                         child: Column(

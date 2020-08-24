@@ -4,7 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:pruebas/utils/responsive.dart';
 
 class VideoPlayerIFC extends StatefulWidget {
-  VideoPlayerIFC({Key key}) : super(key: key);
+
+  final video;
+  final String tag;
+
+  const VideoPlayerIFC({Key key, @required this.video, this.tag})
+      : assert(video != null),
+        super(key: key);
+
 
   @override
   _VideoPlayerIFCState createState() => _VideoPlayerIFCState();
@@ -16,7 +23,7 @@ class _VideoPlayerIFCState extends State<VideoPlayerIFC> {
   @override
   void initState() {
     super.initState();
-    _controller = VideoPlayerController.asset('assets/IFC.mp4')
+    _controller = VideoPlayerController.asset(widget.video)
       ..initialize().then((_) {
         // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
         setState(() {});
@@ -37,6 +44,7 @@ class _VideoPlayerIFCState extends State<VideoPlayerIFC> {
       ),
       floatingActionButton: FloatingActionButton(
         mini: true,
+        heroTag: widget.tag,
         onPressed: () {
           setState(() {
             _controller.value.isPlaying

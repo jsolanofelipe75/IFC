@@ -28,6 +28,12 @@
 				<string>com.googleusercontent.apps.930478313129-cmqu4q2isvfq7p6msutl6o33hdc8ovnj</string>
 			</array>
 		</dict>
+		<dict>
+    <key>CFBundleURLSchemes</key>
+    <array>
+      <string>fb304217477367263</string>
+    </array>
+  </dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
@@ -52,5 +58,16 @@
 	<false/>
 	<key>io.flutter.embedded_views_preview</key>
 	<true/>
+	<key>FacebookAppID</key>
+<string>304217477367263</string>
+<key>FacebookDisplayName</key>
+<string>IFC App</string>
+<key>LSApplicationQueriesSchemes</key>
+<array>
+  <string>fbapi</string>
+  <string>fb-messenger-share-api</string>
+  <string>fbauth2</string>
+  <string>fbshareextension</string>
+</array>
 </dict>
 </plist>

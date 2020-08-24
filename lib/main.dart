@@ -8,8 +8,11 @@ import 'package:pruebas/pages/login_page.dart';
 import 'package:pruebas/provider/login_state.dart';
 import 'package:pruebas/provider/radio_stream.dart';
 import 'package:pruebas/theme/colors.dart';
+import 'package:pruebas/utils/db.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await DB.instance.init();
   runApp(MyApp());
 }
 
@@ -20,11 +23,17 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   @override
+  void dispose() {
+    DB.instance.close();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([
-        DeviceOrientation.portraitUp,
-        DeviceOrientation.portraitDown,
-      ]);
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle(
         statusBarColor: LightColors.kgrey,
@@ -32,10 +41,9 @@ class _MyAppState extends State<MyApp> {
         statusBarIconBrightness: Brightness.light,
         systemNavigationBarColor: Colors.white,
         systemNavigationBarIconBrightness: Brightness.dark,
-        
       ),
       sized: true,
-          child: MultiProvider(
+      child: MultiProvider(
         providers: [
           ChangeNotifierProvider<LoginState>(
               create: (BuildContext context) => LoginState()),
@@ -68,5 +76,4 @@ class _MyAppState extends State<MyApp> {
       ),
     );
   }
-  
 }
