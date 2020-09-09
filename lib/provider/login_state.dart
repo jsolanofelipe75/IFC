@@ -2,8 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:pruebas/utils/db.dart';
-import 'package:sembast/sembast.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
@@ -11,15 +10,14 @@ import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 class LoginState with ChangeNotifier {
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  Firestore _db = Firestore.instance;
+  FirebaseFirestore _db = FirebaseFirestore.instance;
 
   SharedPreferences _prefs;
-  final StoreRef _store = StoreRef.main();
-  final Database _database = DB.instance.database;
+
 
   bool _loggedIn = false;
   bool _isLoading = true;
-  FirebaseUser _user;
+  User _user;
 
   LoginState() {
     loginState();
@@ -28,7 +26,7 @@ class LoginState with ChangeNotifier {
   bool isLoggedIn() => _loggedIn;
   bool isLoading() => _isLoading;
 
-  FirebaseUser currentUser() => _user;
+  User currentUser() => _user;
 
   void loginGoogle() async {
     _isLoading = true;
@@ -44,10 +42,10 @@ class LoginState with ChangeNotifier {
         _prefs.setString('uid', _user.uid);
         _loggedIn = true;
         if (_user != null) {
-          _db.collection('usuarios').document(_user.uid).updateData({
+          _db.collection('usuarios').doc(_user.uid).update({
             'name': _user.displayName,
             'email': _user.email,
-            'photoUrl': _user.photoUrl,
+            'photoUrl': _user.photoURL,
             'createdAt': DateTime.now().millisecondsSinceEpoch,
             'celular': _user.phoneNumber
           });
@@ -85,10 +83,10 @@ class LoginState with ChangeNotifier {
         _prefs.setString('uid', _user.uid);
         _loggedIn = true;
         if (_user != null) {
-          _db.collection('usuarios').document(_user.uid).updateData({
+          _db.collection('usuarios').doc(_user.uid).update({
             'name': _user.displayName,
             'email': _user.email,
-            'photoUrl': _user.photoUrl,
+            'photoUrl': _user.photoURL,
             'createdAt': DateTime.now().millisecondsSinceEpoch,
             'celular': _user.phoneNumber
           });
@@ -110,10 +108,11 @@ class LoginState with ChangeNotifier {
 
   
 
-  Future<FirebaseUser> _handleFacebookSignIn() async {
-    final result = await FacebookAuth.instance.login();
+  Future<User> _handleFacebookSignIn() async {
+    final fbresult = await FacebookAuth.instance.login();
+    String _token = fbresult.accessToken.token;
 
-    switch (result.status) {
+    switch (fbresult.status) {
       case FacebookAuthLoginResponse.ok: // result.status == 200
         break;
       case FacebookAuthLoginResponse.cancelled: // result.status == 403
@@ -123,27 +122,25 @@ class LoginState with ChangeNotifier {
         print("login failed");
     }
 
-    final AuthCredential credential = FacebookAuthProvider.getCredential(
-      accessToken: result.accessToken.token,
-    );
+    final OAuthCredential credential = FacebookAuthProvider.credential( _token);
 
-    final FirebaseUser user =
+    final User user =
         (await _auth.signInWithCredential(credential)).user;
     print("signed in " + user.displayName);
     return user;
   }
 
-  Future<FirebaseUser> _handleSignIn() async {
+  Future<User> _handleSignIn() async {
     final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
     final GoogleSignInAuthentication googleAuth =
         await googleUser.authentication;
 
-    final AuthCredential credential = GoogleAuthProvider.getCredential(
+    final AuthCredential credential = GoogleAuthProvider.credential(
       accessToken: googleAuth.accessToken,
       idToken: googleAuth.idToken,
     );
 
-    final FirebaseUser user =
+    final User user =
         (await _auth.signInWithCredential(credential)).user;
     print("signed in " + user.displayName);
     return user;
@@ -205,7 +202,7 @@ class LoginState with ChangeNotifier {
   void loginState() async {
     _prefs = await SharedPreferences.getInstance();
     if (_prefs.containsKey('isLoggedIn')) {
-      _user = await _auth.currentUser();
+      _user =  _auth.currentUser;
       _loggedIn = _user != null;
       _isLoading = false;
       notifyListeners();

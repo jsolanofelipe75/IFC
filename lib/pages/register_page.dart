@@ -129,17 +129,17 @@ class _RegisterPageState extends State<RegisterPage> {
   void _register() async {
     String email = _emailController.text.trim();
     String password = _passwordController.text;
-    Firestore _db = Firestore.instance;
+    FirebaseFirestore _db = FirebaseFirestore.instance;
 
     if (email.isNotEmpty && password.isNotEmpty) {
       try {
         final result = await _auth.createUserWithEmailAndPassword(
             email: email, password: password);
 
-        final FirebaseUser _user = result.user;
+        final User _user = result.user;
 
         if (_user != null) {
-          _db.collection('usuarios').document(_user.uid).setData({
+          _db.collection('usuarios').doc(_user.uid).set({
             'name': '',
             'email': _user.email,
             'photoUrl': '',

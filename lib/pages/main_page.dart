@@ -235,9 +235,9 @@ class _LoadVerseState extends State<_LoadVerse> {
   @override
   Widget build(BuildContext context) {
     final responsive = Responsive(context);
-    return FutureBuilder(
-      future: Firestore.instance.collection('versiculo').document(day).get(),
-      builder: (BuildContext context, AsyncSnapshot snapShot) {
+    return FutureBuilder<DocumentSnapshot>(
+      future: FirebaseFirestore.instance.collection('versiculo').doc(day).get(),
+      builder: (context, snapShot) {
         if (!snapShot.hasData) {
           return CupertinoActivityIndicator();
         }
@@ -262,7 +262,7 @@ class _LoadVerseState extends State<_LoadVerse> {
                     textAlign: TextAlign.center,
                   ),
                   SizedBox(height: 15),
-                  Text(snapShot.data['texto'],
+                  Text(snapShot.data.data()['texto'],
                       style: TextStyle(
                           color: Colors.blueGrey,
                           fontSize: responsive.ip(1.7),
@@ -271,7 +271,7 @@ class _LoadVerseState extends State<_LoadVerse> {
                     height: 15,
                   ),
                   Text(
-                    snapShot.data['ref'],
+                    snapShot.data.data()['ref'],
                     style: TextStyle(
                         fontSize: responsive.ip(2),
                         color: LightColors.kgrey,

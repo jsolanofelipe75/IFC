@@ -66,12 +66,12 @@ class _ProfilePageState extends State<ProfilePage> {
                   BoxDecoration(color: LightColors.kgrey.withOpacity(1)),
             ),
           ),
-          FutureBuilder(
+          FutureBuilder<DocumentSnapshot>(
             future:
-                Firestore.instance.collection('usuarios').document(id).get(),
-            builder: (BuildContext context, AsyncSnapshot snapshot) {
+                FirebaseFirestore.instance.collection('usuarios').doc(id).get(),
+            builder: (context,snapshot) {
               if (snapshot.hasData) {
-                int timestamp = snapshot.data['createdAt'];
+                int timestamp = snapshot.data.data()['createdAt'];
                 DateTime date =
                     DateTime.fromMicrosecondsSinceEpoch(timestamp * 1000);
                 String formattedDate = DateFormat.yMMMd().format(date);
@@ -83,14 +83,14 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                     SlideInDown(
                       child: _loadAvatar(
-                          snapshot.data['photoUrl'], responsive.ip(10)),
+                          snapshot.data.data()['photoUrl'], responsive.ip(10)),
                     ),
                     const SizedBox(
                       height: 15,
                     ),
                     ZoomIn(
                       child: Text(
-                        snapshot.data['name'],
+                        snapshot.data.data()['name'],
                         style: Theme.of(context)
                             .textTheme
                             .headline6
@@ -117,7 +117,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: <Widget>[
                               Text(
-                                "Correo: ${snapshot.data['email']}",
+                                "Correo: ${snapshot.data.data()['email']}",
                                 style: TextStyle(fontSize: responsive.ip(2.0),color: Colors.blueGrey),
                               ),
                               SizedBox(
