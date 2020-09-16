@@ -34,7 +34,7 @@ class _MinisterPageState extends State<MinisterPage> {
                 background: Stack(
                   children: <Widget>[
                     Image.asset(
-                      'assets/Vision.jpg',
+                      'assets/Ministerios.png',
                       fit: BoxFit.cover,
                       height: double.infinity,
                     ),

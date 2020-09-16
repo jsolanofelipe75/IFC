@@ -25,7 +25,7 @@ class IglesiaPage extends StatelessWidget {
               background: Stack(
                 children: <Widget>[
                   Image.asset(
-                    'assets/Vision.jpg',
+                    'assets/Nuestra-Mision-2.png',
                     fit: BoxFit.cover,
                     height: double.infinity,
                   ),
@@ -33,7 +33,7 @@ class IglesiaPage extends StatelessWidget {
                     child: Container(
                       color: Colors.black26,
                       child: Text(
-                        'conoce nuestra \nmisión y visión',
+                        'Nuestra \nmisión y visión',
                         style: TextStyle(
                             fontSize: responsive.ip(3.5),
                             color: Colors.white,

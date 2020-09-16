@@ -3,12 +3,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_youtube/flutter_youtube.dart';
 import 'package:provider/provider.dart';
-
+import 'package:pruebas/keys/keys.dart';
 import 'package:pruebas/provider/radio_stream.dart';
 import 'package:pruebas/theme/colors.dart';
-import 'package:pruebas/utils/video_player.dart';
-
 
 import '../routes/routes.dart';
 import '../utils/responsive.dart';
@@ -18,6 +17,15 @@ class HomePrincipal extends StatefulWidget {
 
   @override
   _HomePrincipalState createState() => _HomePrincipalState();
+}
+
+playVideo(String video) {
+  FlutterYoutube.playYoutubeVideoByUrl(
+      apiKey: YT_API_KEY,
+      videoUrl: video,
+      fullScreen: false,
+      appBarColor: Colors.black,
+      autoPlay: true);
 }
 
 class _HomePrincipalState extends State<HomePrincipal> {
@@ -74,26 +82,6 @@ class _HomePrincipalState extends State<HomePrincipal> {
                       width: 40,
                       height: 40,
                     )),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    SlideInUp(
-                        child: Container(
-                          color: Colors.white,
-                          child: VideoPlayerIFC(video: 'assets/IFC.mp4',tag: '1',),
-                          height: 150,
-                          width: double.infinity,
-                        )),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    SlideInUp(
-                        child: Text(
-                          'Creemos en Jesús, nuestro Señor y Salvador.',
-                          style: TextStyle(
-                              fontSize: responsive.ip(1.5),
-                              fontStyle: FontStyle.italic),
-                        )),
                     SizedBox(
                       height: 30,
                     ),
@@ -162,28 +150,41 @@ class _HomePrincipalState extends State<HomePrincipal> {
                     Padding(
                       padding: const EdgeInsets.all(20.0),
                       child: Container(
-                          child: Center(
-                            child: Text(
-                              'Conoce nuestra agenda semanal.',
-                              style: TextStyle(
+                        child: Center(
+                          child: Text(
+                            'Conoce nuestra agenda semanal.',
+                            style: TextStyle(
+                                fontSize: responsive.ip(2.5),
                                 color: Colors.blueGrey,
-                                  fontSize: responsive.ip(1.8),
-                                  fontStyle: FontStyle.normal, fontWeight: FontWeight.bold,
-                              ),
-                            ),
+                                fontWeight: FontWeight.bold),
                           ),
+                        ),
                       ),
                     ),
                     SizedBox(
-                      height: 10,
+                      height: 5,
                     ),
                     SlideInUp(
-                        child: Container(
-                          color: Colors.white,
-                          child: VideoPlayerIFC(video: 'assets/Agenda.mp4',tag: '2',),
-                          height: 200,
-                          width: double.infinity,
-                        )),
+                      child: Container(
+                        height: 200,
+                        width: double.infinity,
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: <Widget>[
+                            Image.asset('assets/main_video.jpg', fit: BoxFit.cover,width: double.infinity,),
+                            FlatButton(
+                              onPressed: () => playVideo(
+                                  'https://youtu.be/Dg5bihwQxLM'),
+                              child: Icon(
+                                Icons.play_circle_outline,
+                                size: 50.0,
+                                color: Colors.white,
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
                     SizedBox(
                       height: 20,
                     ),

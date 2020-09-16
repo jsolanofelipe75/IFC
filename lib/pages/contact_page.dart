@@ -43,7 +43,7 @@ class ContactPage extends StatelessWidget {
             title: Text('Teléfono',
                 style: TextStyle(
                     color: Colors.blueGrey, fontSize: responsive.ip(2.2))),
-            subtitle: Text('+57 3046779707',
+            subtitle: Text('3046779707, 3154114471',
                 style: TextStyle(
                     color: Colors.blueGrey, fontSize: responsive.ip(2.0))),
           ),
