@@ -42,7 +42,7 @@ class LoginState with ChangeNotifier {
         _prefs.setString('uid', _user.uid);
         _loggedIn = true;
         if (_user != null) {
-          _db.collection('usuarios').doc(_user.uid).update({
+          _db.collection('usuarios').doc(_user.uid).set({
             'name': _user.displayName,
             'email': _user.email,
             'photoUrl': _user.photoURL,
@@ -83,7 +83,7 @@ class LoginState with ChangeNotifier {
         _prefs.setString('uid', _user.uid);
         _loggedIn = true;
         if (_user != null) {
-          _db.collection('usuarios').doc(_user.uid).update({
+          _db.collection('usuarios').doc(_user.uid).set({
             'name': _user.displayName,
             'email': _user.email,
             'photoUrl': _user.photoURL,

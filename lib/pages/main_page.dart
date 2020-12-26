@@ -64,11 +64,13 @@ class _HomePrincipalState extends State<HomePrincipal> {
                   children: <Widget>[
                     ZoomIn(
                       child: Center(
+                        
                         child: Image.asset(
-                          'assets/large2020.png',
+                          'assets/imag_princ.jpeg',
                           width: double.infinity,
-                          height: 250,
-                          fit: BoxFit.cover,
+                          height: 270,
+                          fit: BoxFit.fill,
+                          
                         ),
                       ),
                     ),
